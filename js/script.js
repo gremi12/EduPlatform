@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryCards = document.querySelectorAll("[data-filter-card]");
   const homeSearchSection = document.querySelector(".home-search");
   const guestRestrictedHeroLinks = document.querySelectorAll(
-    '.hero-section a[href="resources.html"], .hero-section a[href="webinars.html"]'
+    '.hero-section a[href="resources.html"], .hero-section a[href="/resources"], .hero-section a[href="webinars.html"], .hero-section a[href="/webinars"]'
   );
   const session = readSupabaseSession();
   const user = session?.user || null;
@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const navbarList = document.querySelector(".navbar-nav");
     if (!navbarList) return;
 
-    const restrictedHrefs = ["resources.html", "webinars.html", "community.html", "profile.html"];
+    const restrictedRoutes = ["resources", "webinars", "community", "profile"];
 
-    restrictedHrefs.forEach(href => {
+    restrictedRoutes.forEach(route => {
       const item = Array.from(navbarList.querySelectorAll("a")).find(
-        link => link.getAttribute("href") === href
+        link => matchesRoute(link, route)
       )?.closest("li");
 
       if (!user) {
@@ -77,10 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!user) return;
 
     const authItem = Array.from(navbarList.querySelectorAll("a")).find(
-      link => link.getAttribute("href") === "login.html"
+      link => matchesRoute(link, "login") && !link.hash
     )?.closest("li");
     const registerItem = Array.from(navbarList.querySelectorAll("a")).find(
-      link => link.getAttribute("href") === "login.html#register"
+      link => matchesRoute(link, "login") && link.hash === "#register"
     )?.closest("li");
 
     authItem?.remove();
@@ -160,13 +160,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function normalizeAuthEntryLinks() {
-    document.querySelectorAll('a[href="login.html"]').forEach(link => {
-      link.setAttribute("href", "login.html#login");
-    });
+    document.querySelectorAll("a").forEach(link => {
+      if (matchesRoute(link, "login") && !link.hash) {
+        link.setAttribute("href", "login.html#login");
+      }
 
-    document.querySelectorAll('a[href="login.html#register"]').forEach(link => {
-      link.setAttribute("href", "login.html#register");
+      if (matchesRoute(link, "login") && link.hash === "#register") {
+        link.setAttribute("href", "login.html#register");
+      }
     });
+  }
+
+  function matchesRoute(link, routeName) {
+    const rawHref = link.getAttribute("href") || "";
+    const normalizedHref = rawHref.replace(/^\.\//, "").replace(/^\/+/, "");
+    const pathOnly = normalizedHref.split("#")[0];
+
+    if (pathOnly === `${routeName}.html` || pathOnly === routeName) {
+      return true;
+    }
+
+    try {
+      const url = new URL(link.href, window.location.origin);
+      const pathname = url.pathname.replace(/^\/+/, "").replace(/\/+$/, "");
+      return pathname === routeName || pathname === `${routeName}.html`;
+    } catch (error) {
+      return false;
+    }
   }
 
   function findFooterSection(title) {

@@ -5,15 +5,25 @@ body { margin: 0; font-family: "Open Sans", sans-serif; color: #1f2937; backgrou
 h1, h2, h3, h4, h5, h6, .navbar-brand { font-family: "Montserrat", sans-serif; }
 
 body:not(.is-authenticated) .navbar a[href="resources.html"],
+body:not(.is-authenticated) .navbar a[href="/resources"],
 body:not(.is-authenticated) .navbar a[href="webinars.html"],
+body:not(.is-authenticated) .navbar a[href="/webinars"],
 body:not(.is-authenticated) .navbar a[href="community.html"],
+body:not(.is-authenticated) .navbar a[href="/community"],
 body:not(.is-authenticated) .navbar a[href="profile.html"],
+body:not(.is-authenticated) .navbar a[href="/profile"],
 body:not(.is-authenticated) .footer a[href="resources.html"],
+body:not(.is-authenticated) .footer a[href="/resources"],
 body:not(.is-authenticated) .footer a[href="webinars.html"],
+body:not(.is-authenticated) .footer a[href="/webinars"],
 body:not(.is-authenticated) .footer a[href="community.html"],
+body:not(.is-authenticated) .footer a[href="/community"],
 body:not(.is-authenticated) .footer a[href="profile.html"],
+body:not(.is-authenticated) .footer a[href="/profile"],
 body:not(.is-authenticated) .hero-section a[href="resources.html"],
+body:not(.is-authenticated) .hero-section a[href="/resources"],
 body:not(.is-authenticated) .hero-section a[href="webinars.html"],
+body:not(.is-authenticated) .hero-section a[href="/webinars"],
 body:not(.is-authenticated) .home-search {
   display: none !important;
 }
