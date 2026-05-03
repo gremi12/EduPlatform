@@ -24,6 +24,7 @@ Ce creează scriptul:
 - trigger automat pentru creare profil după signup
 - bucket-ul Storage `resources`
 - politici RLS pentru profiluri, resurse și upload
+- coloana `class_level` pentru conturile de elev
 
 ## 4. Copiază cheia publică în proiect
 
@@ -49,10 +50,14 @@ Important:
 
 1. Deschide [login.html](/D:/siteEducational/eduplatform_corrected_full_site/login.html).
 2. Creează un cont nou.
-3. Autentifică-te.
-4. Dacă rolul este `profesor`, vei fi trimis în [teachers-dashboard.html](/D:/siteEducational/eduplatform_corrected_full_site/teachers-dashboard.html).
-5. Încarcă o resursă.
+3. Dacă alegi rolul `elev`, selectează și clasa.
+4. Autentifică-te.
+5. Dacă rolul este `profesor`, vei fi trimis în [teachers-dashboard.html](/D:/siteEducational/eduplatform_corrected_full_site/teachers-dashboard.html).
 6. Verifică apoi [profile.html](/D:/siteEducational/eduplatform_corrected_full_site/profile.html).
+
+Notă:
+
+- dacă ai rulat deja schema mai veche, rulează din nou [supabase/schema.sql](/D:/siteEducational/eduplatform_corrected_full_site/supabase/schema.sql) ca să se adauge coloana `class_level`
 
 ## 6. Ce este deja conectat în proiect
 

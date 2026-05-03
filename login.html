@@ -23,7 +23,7 @@
         <li class="nav-item"><a class="nav-link" href="webinars.html">Webinarii</a></li>
         <li class="nav-item"><a class="nav-link" href="community.html">Comunități</a></li>
         <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
-        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
+        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html#login">Autentificare</a></li>
         <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
       </ul>
     </div>
@@ -32,24 +32,9 @@
 
 <main class="auth-page py-5">
   <div class="container">
-    <div class="row g-4 justify-content-center">
-      <div class="col-lg-5">
-        <div class="auth-card">
-          <h1>Autentificare</h1>
-          <p>Intră în contul tău de profesor.</p>
-          <div id="loginMessage" class="mb-3"></div>
-          <form id="loginForm">
-            <label class="form-label" for="loginEmail">Email</label>
-            <input id="loginEmail" class="form-control mb-3" type="email" placeholder="nume@email.com" required>
-            <label class="form-label" for="loginPassword">Parolă</label>
-            <input id="loginPassword" class="form-control mb-4" type="password" placeholder="Parola ta" required minlength="6">
-            <button class="btn btn-primary custom-btn w-100" type="submit">Autentificare</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="col-lg-5" id="register">
-        <div class="auth-card">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-xl-5" id="register">
+        <div id="registerPanel" class="auth-card">
           <h1>Înregistrare</h1>
           <p>Creează cont gratuit pe platformă.</p>
           <div id="registerMessage" class="mb-3"></div>
@@ -65,8 +50,44 @@
               <option value="profesor">Profesor</option>
               <option value="elev">Elev</option>
             </select>
+            <div id="registerClassGroup" class="mb-3 d-none">
+              <label class="form-label" for="registerClassLevel">Clasa</label>
+              <select id="registerClassLevel" class="form-select">
+                <option value="">Selectează clasa</option>
+                <option value="Clasa a V-a">Clasa a V-a</option>
+                <option value="Clasa a VI-a">Clasa a VI-a</option>
+                <option value="Clasa a VII-a">Clasa a VII-a</option>
+                <option value="Clasa a VIII-a">Clasa a VIII-a</option>
+                <option value="Clasa a IX-a">Clasa a IX-a</option>
+                <option value="Clasa a X-a">Clasa a X-a</option>
+                <option value="Clasa a XI-a">Clasa a XI-a</option>
+                <option value="Clasa a XII-a">Clasa a XII-a</option>
+              </select>
+            </div>
             <button class="btn btn-primary custom-btn w-100" type="submit">Creează cont</button>
           </form>
+          <div class="auth-switch mt-4">
+            <span>Ai cont?</span>
+            <button id="showLoginButton" class="btn btn-link p-0 auth-switch-link" type="button">Autentifică-te!</button>
+          </div>
+        </div>
+
+        <div id="loginPanel" class="auth-card d-none">
+          <h1>Autentificare</h1>
+          <p>Intră în contul tău.</p>
+          <div id="loginMessage" class="mb-3"></div>
+          <form id="loginForm">
+            <label class="form-label" for="loginEmail">Email</label>
+            <input id="loginEmail" class="form-control mb-3" type="email" placeholder="nume@email.com" required>
+            <label class="form-label" for="loginPassword">Parolă</label>
+            <input id="loginPassword" class="form-control mb-3" type="password" placeholder="Parola ta" required minlength="6">
+            <button id="resetPasswordButton" class="btn btn-link p-0 auth-switch-link mb-4" type="button">Ai uitat parola? Resetează parola</button>
+            <button class="btn btn-primary custom-btn w-100" type="submit">Autentificare</button>
+          </form>
+          <div class="auth-switch mt-4">
+            <span>Nu ai cont?</span>
+            <button id="showRegisterButton" class="btn btn-link p-0 auth-switch-link" type="button">Înregistrează-te!</button>
+          </div>
         </div>
       </div>
     </div>

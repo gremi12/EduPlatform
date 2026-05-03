@@ -4,13 +4,78 @@ document.addEventListener("DOMContentLoaded", async () => {
   const registerForm = document.querySelector("#registerForm");
   const loginMessage = document.querySelector("#loginMessage");
   const registerMessage = document.querySelector("#registerMessage");
+  const registerRole = document.querySelector("#registerRole");
+  const registerClassGroup = document.querySelector("#registerClassGroup");
+  const registerClassLevel = document.querySelector("#registerClassLevel");
+  const registerPanel = document.querySelector("#registerPanel");
+  const loginPanel = document.querySelector("#loginPanel");
+  const showLoginButton = document.querySelector("#showLoginButton");
+  const showRegisterButton = document.querySelector("#showRegisterButton");
+  const loginEmail = document.querySelector("#loginEmail");
+  const resetPasswordButton = document.querySelector("#resetPasswordButton");
 
   if (!supabaseApi?.isConfigured) {
     const configMessage =
       "Completează mai întâi valorile din js/supabaseClient.js cu URL-ul și cheia publică din Supabase.";
-    supabaseApi?.showMessage(loginMessage, configMessage, "warning");
     supabaseApi?.showMessage(registerMessage, configMessage, "warning");
+    supabaseApi?.showMessage(loginMessage, configMessage, "warning");
     return;
+  }
+
+  toggleStudentClassField();
+  registerRole?.addEventListener("change", toggleStudentClassField);
+
+  showLoginButton?.addEventListener("click", () => {
+    showLoginView();
+    loginEmail?.focus();
+  });
+
+  showRegisterButton?.addEventListener("click", () => {
+    showRegisterView();
+  });
+
+  resetPasswordButton?.addEventListener("click", async () => {
+    supabaseApi.clearMessage(loginMessage);
+    const email = loginEmail?.value.trim();
+
+    if (!email) {
+      supabaseApi.showMessage(
+        loginMessage,
+        "Introdu emailul și apoi apasă pe resetare parolă.",
+        "warning"
+      );
+      showLoginView();
+      loginEmail?.focus();
+      return;
+    }
+
+    try {
+      const { error } = await supabaseApi.client.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.href.split("#")[0] + "#login",
+      });
+
+      if (error) throw error;
+
+      supabaseApi.showMessage(
+        loginMessage,
+        "Ți-am trimis emailul pentru resetarea parolei.",
+        "success"
+      );
+      showLoginView();
+    } catch (error) {
+      supabaseApi.showMessage(
+        loginMessage,
+        error.message || "Nu am putut trimite emailul de resetare.",
+        "danger"
+      );
+      showLoginView();
+    }
+  });
+
+  if (window.location.hash === "#login") {
+    showLoginView();
+  } else {
+    showRegisterView();
   }
 
   try {
@@ -20,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   } catch (error) {
     supabaseApi.showMessage(
-      loginMessage,
+      registerMessage,
       error.message || "Nu am putut verifica sesiunea curentă.",
       "danger"
     );
@@ -30,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     event.preventDefault();
     supabaseApi.clearMessage(loginMessage);
 
-    const email = document.querySelector("#loginEmail")?.value.trim();
+    const email = loginEmail?.value.trim();
     const password = document.querySelector("#loginPassword")?.value;
 
     try {
@@ -49,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         error.message || "Autentificarea a eșuat.",
         "danger"
       );
+      showLoginView();
     }
   });
 
@@ -59,9 +125,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fullName = document.querySelector("#registerName")?.value.trim();
     const email = document.querySelector("#registerEmail")?.value.trim();
     const password = document.querySelector("#registerPassword")?.value;
-    const role = supabaseApi.normalizeRole(
-      document.querySelector("#registerRole")?.value
-    );
+    const role = supabaseApi.normalizeRole(registerRole?.value);
+    const classLevel = registerClassLevel?.value || "";
+
+    if (role === "elev" && !classLevel) {
+      supabaseApi.showMessage(
+        registerMessage,
+        "Selectează clasa pentru contul de elev.",
+        "warning"
+      );
+      return;
+    }
 
     try {
       const { data, error } = await supabaseApi.client.auth.signUp({
@@ -71,6 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           data: {
             full_name: fullName,
             role,
+            class_level: role === "elev" ? classLevel : null,
           },
         },
       });
@@ -89,6 +164,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         "success"
       );
       registerForm.reset();
+      toggleStudentClassField();
+      showLoginView();
+      loginEmail?.focus();
     } catch (error) {
       supabaseApi.showMessage(
         registerMessage,
@@ -100,8 +178,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderActiveSessionMessage(profile) {
     const destination = supabaseApi.getDashboardPath(profile);
-    loginMessage.className = "alert alert-info mb-3";
-    loginMessage.innerHTML = `
+    registerMessage.className = "alert alert-info mb-3";
+    registerMessage.innerHTML = `
       Ești deja autentificat.
       <div class="mt-2 d-flex flex-wrap gap-2">
         <a class="btn btn-sm btn-primary" href="${destination}">Continuă în cont</a>
@@ -112,7 +190,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     const logoutButton = document.querySelector("#logoutFromLoginPage");
     logoutButton?.addEventListener("click", async () => {
       await supabaseApi.signOut();
-      supabaseApi.clearMessage(loginMessage);
+      supabaseApi.clearMessage(registerMessage);
     });
+  }
+
+  function toggleStudentClassField() {
+    const isStudent = supabaseApi.normalizeRole(registerRole?.value) === "elev";
+    registerClassGroup?.classList.toggle("d-none", !isStudent);
+    if (registerClassLevel) {
+      registerClassLevel.required = isStudent;
+      if (!isStudent) registerClassLevel.value = "";
+    }
+  }
+
+  function showLoginView() {
+    registerPanel?.classList.add("d-none");
+    loginPanel?.classList.remove("d-none");
+    window.history.replaceState(null, "", "#login");
+  }
+
+  function showRegisterView() {
+    loginPanel?.classList.add("d-none");
+    registerPanel?.classList.remove("d-none");
+    window.history.replaceState(null, "", "#register");
   }
 });

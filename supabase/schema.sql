@@ -5,11 +5,15 @@ create table if not exists public.profiles (
   full_name text not null default '',
   role text not null default 'elev' check (role in ('profesor', 'elev')),
   specialization text not null default 'Nespecificată',
+  class_level text,
   badges_cpd integer not null default 0,
   activity_years integer not null default 0,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
+
+alter table public.profiles
+add column if not exists class_level text;
 
 create table if not exists public.resources (
   id uuid primary key default gen_random_uuid(),
@@ -26,6 +30,19 @@ create table if not exists public.resources (
   created_at timestamptz not null default timezone('utc', now())
 );
 
+create table if not exists public.webinar_registrations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  webinar_slug text not null,
+  webinar_title text not null,
+  full_name text not null,
+  email text not null,
+  school_name text not null,
+  message text not null default '',
+  created_at timestamptz not null default timezone('utc', now()),
+  unique (user_id, webinar_slug)
+);
+
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -36,17 +53,20 @@ begin
   insert into public.profiles (
     id,
     full_name,
-    role
+    role,
+    class_level
   )
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'full_name', ''),
-    coalesce(lower(new.raw_user_meta_data->>'role'), 'elev')
+    coalesce(lower(new.raw_user_meta_data->>'role'), 'elev'),
+    nullif(new.raw_user_meta_data->>'class_level', '')
   )
   on conflict (id) do update
   set
     full_name = excluded.full_name,
     role = excluded.role,
+    class_level = excluded.class_level,
     updated_at = timezone('utc', now());
 
   return new;
@@ -60,6 +80,7 @@ for each row execute procedure public.handle_new_user();
 
 alter table public.profiles enable row level security;
 alter table public.resources enable row level security;
+alter table public.webinar_registrations enable row level security;
 
 drop policy if exists "profiles_select_own" on public.profiles;
 create policy "profiles_select_own"
@@ -98,6 +119,27 @@ to authenticated
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 
+drop policy if exists "webinars_select_own" on public.webinar_registrations;
+create policy "webinars_select_own"
+on public.webinar_registrations
+for select
+to authenticated
+using (auth.uid() = user_id);
+
+drop policy if exists "webinars_insert_own" on public.webinar_registrations;
+create policy "webinars_insert_own"
+on public.webinar_registrations
+for insert
+to authenticated
+with check (auth.uid() = user_id);
+
+drop policy if exists "resources_delete_own" on public.resources;
+create policy "resources_delete_own"
+on public.resources
+for delete
+to authenticated
+using (auth.uid() = user_id);
+
 insert into storage.buckets (id, name, public)
 values ('resources', 'resources', true)
 on conflict (id) do nothing;
@@ -129,6 +171,16 @@ using (
   auth.uid()::text = (storage.foldername(name))[1]
 )
 with check (
+  bucket_id = 'resources' and
+  auth.uid()::text = (storage.foldername(name))[1]
+);
+
+drop policy if exists "storage_delete_own_folder" on storage.objects;
+create policy "storage_delete_own_folder"
+on storage.objects
+for delete
+to authenticated
+using (
   bucket_id = 'resources' and
   auth.uid()::text = (storage.foldername(name))[1]
 );

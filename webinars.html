@@ -1,9 +1,14 @@
-<!DOCTYPE html><html lang="ro"><head>  <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="./css/style.css">
-<title>Webinarii | EduPlatform</title></head><body>
+  <title>Webinarii | EduPlatform</title>
+</head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar py-3 sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold fs-4" href="index.html">
@@ -14,21 +19,113 @@
     </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link " href="resources.html">Resurse</a></li>
-<li class="nav-item"><a class="nav-link active" href="webinars.html">Webinarii</a></li>
-<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
-<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
-        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
+        <li class="nav-item"><a class="nav-link" href="resources.html">Resurse</a></li>
+        <li class="nav-item"><a class="nav-link active" href="webinars.html">Webinarii</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html">Comunități</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
+        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html#login">Autentificare</a></li>
         <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<header class="page-header py-5"><div class="container"><span class="badge rounded-pill custom-badge mb-3">EDUPLATFORM</span><h1 class="page-title">Webinarii</h1><p class="page-subtitle">Participă la sesiuni educaționale și cursuri pentru profesori.</p></div></header>
-<main class="py-5"><div class="container"><div class="row g-4"><div class="col-md-6 col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-calendar-days"></i><h5>Strategii de predare eficiente</h5><p>12 Mai 2026 · 17:00 · Dr. Maria Popa</p><a href="#" class="btn btn-outline-primary">Înscrie-te</a></div></div>
-<div class="col-md-6 col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-video"></i><h5>Instrumente digitale pentru clasă</h5><p>18 Mai 2026 · 18:00 · Andrei Vasile</p><a href="#" class="btn btn-outline-primary">Înscrie-te</a></div></div>
-<div class="col-md-6 col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-chalkboard-user"></i><h5>Evaluare modernă</h5><p>25 Mai 2026 · 16:30 · Elena Rusu</p><a href="#" class="btn btn-outline-primary">Înscrie-te</a></div></div></div></div></main>
+<header class="page-header py-5">
+  <div class="container">
+    <span class="badge rounded-pill custom-badge mb-3">EDUPLATFORM</span>
+    <h1 class="page-title">Webinarii</h1>
+    <p class="page-subtitle">Participă la sesiuni educaționale și cursuri pentru profesori.</p>
+  </div>
+</header>
+
+<main class="py-5">
+  <div class="container">
+    <div id="webinarMessage" class="mb-4"></div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="info-card h-100 webinar-card">
+          <i class="fa-solid fa-calendar-days"></i>
+          <h5>Strategii de predare eficiente</h5>
+          <p>12 Mai 2026 · 17:00 · Dr. Maria Popa</p>
+          <p class="small text-secondary">Metode practice pentru implicarea elevilor și proiectarea lecțiilor moderne.</p>
+          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="strategii-predare" data-webinar-title="Strategii de predare eficiente" data-webinar-date="12 Mai 2026 · 17:00">
+            Înscrie-te
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="info-card h-100 webinar-card">
+          <i class="fa-solid fa-video"></i>
+          <h5>Instrumente digitale pentru clasă</h5>
+          <p>18 Mai 2026 · 18:00 · Andrei Vasile</p>
+          <p class="small text-secondary">Aplicații și fluxuri digitale care îi ajută pe profesori să organizeze lecții interactive.</p>
+          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="instrumente-digitale" data-webinar-title="Instrumente digitale pentru clasă" data-webinar-date="18 Mai 2026 · 18:00">
+            Înscrie-te
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="info-card h-100 webinar-card">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <h5>Evaluare modernă</h5>
+          <p>25 Mai 2026 · 16:30 · Elena Rusu</p>
+          <p class="small text-secondary">Exemple de evaluare formativă, feedback eficient și rubrici moderne.</p>
+          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="evaluare-moderna" data-webinar-title="Evaluare modernă" data-webinar-date="25 Mai 2026 · 16:30">
+            Înscrie-te
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" id="webinarRegisterModal" tabindex="-1" aria-labelledby="webinarRegisterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="webinarRegisterForm">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title" id="webinarRegisterModalLabel">Înscriere webinar</h5>
+            <small id="webinarRegisterMeta" class="text-muted d-block mt-1"></small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Închide"></button>
+        </div>
+        <div class="modal-body">
+          <div id="webinarRegisterFormMessage" class="mb-3"></div>
+          <input type="hidden" id="webinarSlug">
+          <input type="hidden" id="webinarTitle">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="webinarFullName">Nume complet</label>
+              <input id="webinarFullName" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="webinarEmail">Email</label>
+              <input id="webinarEmail" type="email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="webinarSchool">Școală / Instituție</label>
+              <input id="webinarSchool" type="text" class="form-control" placeholder="Ex: Colegiul Național X" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="webinarRole">Rol</label>
+              <input id="webinarRole" type="text" class="form-control" readonly>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="webinarMessageInput">Mesaj pentru organizator</label>
+              <textarea id="webinarMessageInput" class="form-control" rows="4" placeholder="Întrebări, obiective, așteptări..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anulează</button>
+          <button id="submitWebinarRegistrationButton" type="submit" class="btn btn-primary custom-btn">Trimite înscrierea</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <footer class="footer py-5">
   <div class="container">
     <div class="row g-4">
@@ -55,12 +152,16 @@
         <a href="contact.html#gdpr">GDPR</a>
         <a href="contact.html#terms">Termeni</a>
       </div>
-      </div>
     </div>
     <hr class="border-light mt-4">
     <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./js/supabaseClient.js"></script>
+<script src="./js/webinars.js"></script>
+</body>
+</html>

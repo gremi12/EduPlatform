@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="ro"><head>  <meta charset="UTF-8" />
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="./css/style.css">
-<title>Catalog Resurse | EduPlatform</title></head><body>
+  <title>Catalog Resurse | EduPlatform</title>
+</head>
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar py-3 sticky-top">
   <div class="container">
@@ -17,9 +21,9 @@
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
         <li class="nav-item"><a class="nav-link active" href="resources.html">Resurse</a></li>
-<li class="nav-item"><a class="nav-link " href="webinars.html">Webinarii</a></li>
-<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
-<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="webinars.html">Webinarii</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html">Comunități</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
         <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
         <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
       </ul>
@@ -27,80 +31,206 @@
   </div>
 </nav>
 
-<header class="page-header py-5"><div class="container"><div class="row align-items-center g-4">
-<div class="col-lg-7"><span class="badge rounded-pill custom-badge mb-3">CATALOG RESURSE</span><h1 class="page-title">Descoperă resurse educaționale pentru profesori</h1><p class="page-subtitle">Caută materiale didactice, planuri de lecție, fișe de lucru și prezentări pentru diferite clase și discipline.</p></div>
-<div class="col-lg-5"><div class="upload-card"><i class="fa-solid fa-cloud-arrow-up"></i><h5>Ai o resursă utilă?</h5><p>Încarcă materiale educaționale și ajută alți profesori.</p><a href="upload.html" class="btn btn-primary custom-btn">Încarcă resursă</a></div></div>
-</div></div></header>
-<main class="py-5"><div class="container">
-<section class="filter-box mb-5"><div class="row g-3 align-items-end">
-<div class="col-lg-5"><label class="form-label">Caută resurse</label><div class="input-group"><span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span><input id="resourceSearch" type="text" class="form-control" placeholder="Ex: informatică, științe, limba română"></div></div>
-<div class="col-lg-3"><label class="form-label">Categorie</label><select id="categoryFilter" class="form-select"><option value="">Toate categoriile</option><option value="informatică">Informatică</option><option value="științe">Științe</option><option value="limba română">Limba Română</option><option value="matematică">Matematică</option></select></div>
-<div class="col-lg-2"><label class="form-label">Clasa</label><select class="form-select"><option>Toate</option><option>Clasa 7</option><option>Clasa 8</option><option>Clasa 9</option><option>Clasa 10</option></select></div>
-<div class="col-lg-2"><button id="resetFilters" class="btn btn-primary custom-btn w-100" type="button">Reset</button></div>
-</div></section>
-<section class="mb-5"><h2 class="section-title mb-4">Categorii resurse</h2><div class="row g-4">
-<div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="informatică"><i class="fa-solid fa-laptop-code"></i><h5>Informatică</h5><p>Algoritmi, programare</p></div></div>
-<div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="științe"><i class="fa-solid fa-flask"></i><h5>Științe</h5><p>Biologie, chimie, fizică</p></div></div>
-<div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="limba română"><i class="fa-solid fa-book"></i><h5>Limba Română</h5><p>Gramatică, literatură</p></div></div>
-<div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="matematică"><i class="fa-solid fa-square-root-variable"></i><h5>Matematică</h5><p>Ecuații, exerciții</p></div></div>
-</div></section>
-<section><div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3"><div><h2 class="section-title">Resurse disponibile</h2><p class="text-secondary mb-0">Materiale încărcate de profesori.</p></div><select class="form-select sort-select"><option>Cele mai populare</option><option>Cele mai noi</option><option>Rating ridicat</option></select></div>
-<div id="resourcesGrid" class="row g-4">
-<div class="col-md-6 col-lg-4 resource-item" data-category="informatică">
-  <div class="resource-card">
-    <div class="resource-icon bg-green"><i class="fa-solid fa-code"></i></div>
-    <span class="resource-category">Informatică · Clasa 9</span>
-    <h5>Introducere în algoritmi</h5>
-    <p>Algoritmi, pseudocod și exemple practice.</p>
-    <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.4</span><span><i class="fa-solid fa-download"></i> 650</span></div>
-    <a href="./resource-informatica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+<header class="page-header py-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="badge rounded-pill custom-badge mb-3">CATALOG RESURSE</span>
+        <h1 class="page-title">Descoperă resurse educaționale pentru profesori</h1>
+        <p class="page-subtitle">Caută materiale didactice, planuri de lecție, fișe de lucru și prezentări pentru diferite clase și discipline.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="upload-card">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <h5>Ai o resursă utilă?</h5>
+          <p>Încarcă materiale educaționale și ajută alți profesori.</p>
+          <button type="button" class="btn btn-primary custom-btn" data-bs-toggle="modal" data-bs-target="#resourceUploadModal">
+            Încarcă resursă
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="py-5">
+  <div class="container">
+    <section class="filter-box mb-5">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-5">
+          <label class="form-label">Caută resurse</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input id="resourceSearch" type="text" class="form-control" placeholder="Ex: informatică, științe, limba română">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <label class="form-label">Categorie</label>
+          <select id="categoryFilter" class="form-select">
+            <option value="">Toate categoriile</option>
+            <option value="informatică">Informatică</option>
+            <option value="științe">Științe</option>
+            <option value="limba română">Limba Română</option>
+            <option value="matematică">Matematică</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <label class="form-label">Clasa</label>
+          <select class="form-select">
+            <option>Toate</option>
+            <option>Clasa 7</option>
+            <option>Clasa 8</option>
+            <option>Clasa 9</option>
+            <option>Clasa 10</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <button id="resetFilters" class="btn btn-primary custom-btn w-100" type="button">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title mb-4">Categorii resurse</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="informatică"><i class="fa-solid fa-laptop-code"></i><h5>Informatică</h5><p>Algoritmi, programare</p></div></div>
+        <div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="științe"><i class="fa-solid fa-flask"></i><h5>Științe</h5><p>Biologie, chimie, fizică</p></div></div>
+        <div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="limba română"><i class="fa-solid fa-book"></i><h5>Limba Română</h5><p>Gramatică, literatură</p></div></div>
+        <div class="col-md-6 col-lg-3"><div class="category-card" data-filter-card="matematică"><i class="fa-solid fa-square-root-variable"></i><h5>Matematică</h5><p>Ecuații, exerciții</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+          <h2 class="section-title">Resurse disponibile</h2>
+          <p class="text-secondary mb-0">Materiale încărcate de profesori.</p>
+        </div>
+        <select class="form-select sort-select">
+          <option>Cele mai populare</option>
+          <option>Cele mai noi</option>
+          <option>Rating ridicat</option>
+        </select>
+      </div>
+
+      <div id="resourcesGrid" class="row g-4">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="informatică">
+          <div class="resource-card">
+            <div class="resource-icon bg-green"><i class="fa-solid fa-code"></i></div>
+            <span class="resource-category">Informatică · Clasa 9</span>
+            <h5>Introducere în algoritmi</h5>
+            <p>Algoritmi, pseudocod și exemple practice.</p>
+            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.4</span><span><i class="fa-solid fa-download"></i> 650</span></div>
+            <a href="./resource-informatica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 resource-item" data-category="științe">
+          <div class="resource-card">
+            <div class="resource-icon bg-orange"><i class="fa-solid fa-flask"></i></div>
+            <span class="resource-category">Științe · Biologie</span>
+            <h5>Fotosinteza explicată</h5>
+            <p>Experiment și fișă de lucru pentru elevi.</p>
+            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.5</span><span><i class="fa-solid fa-download"></i> 870</span></div>
+            <a href="./resource-biologie.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 resource-item" data-category="limba română">
+          <div class="resource-card">
+            <div class="resource-icon bg-purple"><i class="fa-solid fa-book"></i></div>
+            <span class="resource-category">Limba Română · Clasa 8</span>
+            <h5>Analiza textului literar</h5>
+            <p>Model de analiză și exerciții de interpretare.</p>
+            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.6</span><span><i class="fa-solid fa-download"></i> 1090</span></div>
+            <a href="./resource-romana.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 resource-item" data-category="matematică">
+          <div class="resource-card">
+            <div class="resource-icon bg-blue"><i class="fa-solid fa-square-root-variable"></i></div>
+            <span class="resource-category">Matematică · Clasa 7</span>
+            <h5>Ecuații de gradul I</h5>
+            <p>Exemple rezolvate și probleme practice.</p>
+            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.7</span><span><i class="fa-solid fa-download"></i> 1310</span></div>
+            <a href="./resource-matematica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 resource-item" data-category="științe">
+          <div class="resource-card">
+            <div class="resource-icon bg-orange"><i class="fa-solid fa-bolt"></i></div>
+            <span class="resource-category">Științe · Fizică</span>
+            <h5>Circuit electric simplu</h5>
+            <p>Activitate practică cu observații și concluzii.</p>
+            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.9</span><span><i class="fa-solid fa-download"></i> 1750</span></div>
+            <a href="./resource-fizica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal fade" id="resourceUploadModal" tabindex="-1" aria-labelledby="resourceUploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resourceUploadModalLabel">Încarcă o resursă nouă</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Închide"></button>
+      </div>
+      <div class="modal-body">
+        <div id="dashboardMessage" class="mb-3"></div>
+        <form id="resourceUploadForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="resourceTitle">Titlu resursă</label>
+              <input id="resourceTitle" type="text" class="form-control" placeholder="Ex: Lecție Biologie - Fotosinteza" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="resourceCategory">Categorie</label>
+              <select id="resourceCategory" class="form-select" required>
+                <option value="Informatică">Informatică</option>
+                <option value="Științe - Fizică">Științe - Fizică</option>
+                <option value="Științe - Biologie">Științe - Biologie</option>
+                <option value="Limba Română">Limba Română</option>
+                <option value="Matematică">Matematică</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="resourceClassLevel">Clasa</label>
+              <input id="resourceClassLevel" type="text" class="form-control" placeholder="Ex: Clasa a 8-a" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="resourceFormat">Format</label>
+              <select id="resourceFormat" class="form-select" required>
+                <option value="PDF">PDF</option>
+                <option value="DOCX">DOCX</option>
+                <option value="PPTX">PPTX</option>
+                <option value="ZIP">ZIP</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="resourceDescription">Descriere</label>
+              <textarea id="resourceDescription" class="form-control" rows="4" placeholder="Descrie resursa..." required></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="resourceFile">Încarcă fișier</label>
+              <input id="resourceFile" type="file" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <button id="publishResourceButton" type="submit" class="btn btn-primary custom-btn btn-lg w-100">
+                <i class="fa-solid fa-cloud-arrow-up me-2"></i>Publică resursa
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="col-md-6 col-lg-4 resource-item" data-category="științe">
-  <div class="resource-card">
-    <div class="resource-icon bg-orange"><i class="fa-solid fa-flask"></i></div>
-    <span class="resource-category">Științe · Biologie</span>
-    <h5>Fotosinteza explicată</h5>
-    <p>Experiment și fișă de lucru pentru elevi.</p>
-    <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.5</span><span><i class="fa-solid fa-download"></i> 870</span></div>
-    <a href="./resource-biologie.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
-  </div>
-</div>
-
-<div class="col-md-6 col-lg-4 resource-item" data-category="limba română">
-  <div class="resource-card">
-    <div class="resource-icon bg-purple"><i class="fa-solid fa-book"></i></div>
-    <span class="resource-category">Limba Română · Clasa 8</span>
-    <h5>Analiza textului literar</h5>
-    <p>Model de analiză și exerciții de interpretare.</p>
-    <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.6</span><span><i class="fa-solid fa-download"></i> 1090</span></div>
-    <a href="./resource-romana.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
-  </div>
-</div>
-
-<div class="col-md-6 col-lg-4 resource-item" data-category="matematică">
-  <div class="resource-card">
-    <div class="resource-icon bg-blue"><i class="fa-solid fa-square-root-variable"></i></div>
-    <span class="resource-category">Matematică · Clasa 7</span>
-    <h5>Ecuații de gradul I</h5>
-    <p>Exemple rezolvate și probleme practice.</p>
-    <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.7</span><span><i class="fa-solid fa-download"></i> 1310</span></div>
-    <a href="./resource-matematica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
-  </div>
-</div>
-
-<div class="col-md-6 col-lg-4 resource-item" data-category="științe">
-  <div class="resource-card">
-    <div class="resource-icon bg-orange"><i class="fa-solid fa-bolt"></i></div>
-    <span class="resource-category">Științe · Fizică</span>
-    <h5>Circuit electric simplu</h5>
-    <p>Activitate practică cu observații și concluzii.</p>
-    <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.9</span><span><i class="fa-solid fa-download"></i> 1750</span></div>
-    <a href="./resource-fizica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
-  </div>
-</div></div></section>
-</div></main>
 <footer class="footer py-5">
   <div class="container">
     <div class="row g-4">
@@ -117,9 +247,9 @@
       </div>
       <div class="col-lg-2">
         <h6>Funcții</h6>
-        <a href="upload.html">Upload resurse</a>
+        <a href="teachers-dashboard.html">Upload resurse</a>
         <a href="admin.html">Admin</a>
-        <a href="resource-details.html">Comentarii</a>
+        <a href="resources.html">Comentarii</a>
       </div>
       <div class="col-lg-2">
         <h6>Suport</h6>
@@ -127,12 +257,16 @@
         <a href="contact.html#gdpr">GDPR</a>
         <a href="contact.html#terms">Termeni</a>
       </div>
-     </div>
     </div>
     <hr class="border-light mt-4">
     <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./js/supabaseClient.js"></script>
+<script src="./js/teacher-dashboard.js"></script>
+</body>
+</html>

@@ -36,7 +36,7 @@
       <div id="profileAvatar" class="profile-avatar">AP</div>
       <div>
         <h1 id="profileName" class="page-title mb-2">Ana Popescu</h1>
-        <p id="profileSubtitle" class="page-subtitle mb-0">Profesor · Matematică · 15 resurse publicate</p>
+        <p id="profileSubtitle" class="page-subtitle mb-0">Profesor · Matematică · profil conectat la Supabase</p>
       </div>
     </div>
   </div>
@@ -52,18 +52,21 @@
           <h5>Informații profil</h5>
           <ul>
             <li>Rol: <span id="profileRole">Profesor</span></li>
-            <li>Specializare: <span id="profileSpecialization">Matematică</span></li>
+            <li><span id="profileSecondaryLabel">Specializare</span>: <span id="profileSpecialization">Matematică</span></li>
             <li>Badge-uri CPD: <span id="profileBadges">3</span></li>
             <li>Activitate: <span id="profileActivity">2 ani</span></li>
           </ul>
-          <a id="uploadResourceCta" href="teachers-dashboard.html" class="btn btn-primary custom-btn">Încarcă resursă</a>
-          <button id="logoutButton" class="btn btn-outline-light mt-3 w-100" type="button">Deconectare</button>
+          <a id="uploadResourceCta" href="teachers-dashboard.html" class="btn btn-primary custom-btn w-100">Încarcă resursă</a>
+          <button id="logoutButton" class="btn btn-outline-primary mt-3 w-100 profile-logout-btn" type="button">Deconectare</button>
         </div>
       </div>
 
       <div class="col-lg-8">
         <div class="details-card">
-          <h2>Resursele mele</h2>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="mb-0">Resursele mele</h2>
+            <small class="text-muted">Poți edita sau șterge resursele publicate de tine.</small>
+          </div>
           <div id="profileResources">
             <div class="recommended-resource">
               <i class="fa-solid fa-file-lines"></i>
@@ -78,6 +81,59 @@
     </div>
   </div>
 </main>
+
+<div class="modal fade" id="editResourceModal" tabindex="-1" aria-labelledby="editResourceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="editResourceForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editResourceModalLabel">Editează resursa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Închide"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editResourceId">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="editResourceTitle">Titlu</label>
+              <input id="editResourceTitle" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="editResourceCategory">Categorie</label>
+              <select id="editResourceCategory" class="form-select" required>
+                <option value="Informatică">Informatică</option>
+                <option value="Științe - Fizică">Științe - Fizică</option>
+                <option value="Științe - Biologie">Științe - Biologie</option>
+                <option value="Limba Română">Limba Română</option>
+                <option value="Matematică">Matematică</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="editResourceClassLevel">Clasa</label>
+              <input id="editResourceClassLevel" type="text" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="editResourceFormat">Format</label>
+              <select id="editResourceFormat" class="form-select" required>
+                <option value="PDF">PDF</option>
+                <option value="DOCX">DOCX</option>
+                <option value="PPTX">PPTX</option>
+                <option value="ZIP">ZIP</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="editResourceDescription">Descriere</label>
+              <textarea id="editResourceDescription" class="form-control" rows="4" required></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anulează</button>
+          <button id="saveResourceChangesButton" type="submit" class="btn btn-primary custom-btn">Salvează modificările</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <footer class="footer py-5">
   <div class="container">

@@ -3,11 +3,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const messageBox = document.querySelector("#dashboardMessage");
   const form = document.querySelector("#resourceUploadForm");
   const publishButton = document.querySelector("#publishResourceButton");
+  const uploadModalElement = document.querySelector("#resourceUploadModal");
+  const uploadModal = uploadModalElement ? bootstrap.Modal.getOrCreateInstance(uploadModalElement) : null;
+  const statsElements = {
+    totalResources: document.querySelector("#totalResources"),
+    totalDownloads: document.querySelector("#totalDownloads"),
+    averageRating: document.querySelector("#averageRating"),
+  };
 
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
       messageBox,
-      "Completează întâi valorile din js/supabaseClient.js pentru a folosi dashboard-ul.",
+      "Completează întâi valorile din js/supabaseClient.js pentru a folosi upload-ul de resurse.",
       "warning"
     );
     if (publishButton) publishButton.disabled = true;
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     supabaseApi.showMessage(
       messageBox,
-      error.message || "Nu am putut încărca dashboard-ul.",
+      error.message || "Nu am putut încărca modulul de upload.",
       "danger"
     );
     return;
@@ -107,6 +114,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       form.reset();
       await loadStats(authState.user.id);
       supabaseApi.showMessage(messageBox, "Resursa a fost publicată cu succes.", "success");
+
+      if (uploadModal) {
+        setTimeout(() => {
+          uploadModal.hide();
+          supabaseApi.clearMessage(messageBox);
+        }, 900);
+      }
     } catch (error) {
       supabaseApi.showMessage(
         messageBox,
@@ -144,8 +158,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         ).toFixed(1)
       : "0";
 
-    document.querySelector("#totalResources").textContent = String(totalResources);
-    document.querySelector("#totalDownloads").textContent = String(totalDownloads);
-    document.querySelector("#averageRating").textContent = String(averageRating);
+    if (statsElements.totalResources) {
+      statsElements.totalResources.textContent = String(totalResources);
+    }
+    if (statsElements.totalDownloads) {
+      statsElements.totalDownloads.textContent = String(totalDownloads);
+    }
+    if (statsElements.averageRating) {
+      statsElements.averageRating.textContent = String(averageRating);
+    }
   }
 });

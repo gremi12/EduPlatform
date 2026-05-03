@@ -77,9 +77,23 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-family: "Montserrat", sans-serif; }
 .recommended-resource strong, .recommended-resource small { display: block; }
 .recommended-resource strong { color: #1E3A8A; }
 .recommended-resource small { color: #6b7280; }
+.profile-logout-btn { border-color: #1E3A8A; color: #1E3A8A; font-weight: 700; background: #fff; }
+.profile-logout-btn:hover { background: #1E3A8A; color: #fff; border-color: #1E3A8A; }
+.owned-resource-card { display: flex; justify-content: space-between; gap: 18px; padding: 18px 0; border-top: 1px solid #e5e7eb; }
+.owned-resource-card:first-child { border-top: 0; padding-top: 0; }
+.owned-resource-main { display: flex; gap: 14px; align-items: flex-start; min-width: 0; flex: 1; }
+.owned-resource-icon { color: #3B82F6; font-size: 1.4rem; margin-top: 4px; }
+.owned-resource-copy { min-width: 0; }
+.owned-resource-copy strong { color: #1E3A8A; display: block; }
+.owned-resource-copy small { color: #6b7280; display: block; margin-bottom: 6px; }
+.owned-resource-copy p { color: #4b5563; line-height: 1.5; }
+.owned-resource-actions { display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
 
 .auth-page { background: linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%); min-height: 70vh; }
 .form-wide { max-width: 900px; }
+.auth-switch { display: flex; justify-content: center; align-items: center; gap: 8px; color: #4b5563; font-weight: 600; }
+.auth-switch-link { color: #1E3A8A; font-weight: 800; text-decoration: none; }
+.auth-switch-link:hover { color: #3B82F6; }
 
 .footer { background: linear-gradient(90deg, #1E3A8A, #0f2a68); color: #fff; }
 .footer a { display: block; color: #dbeafe; text-decoration: none; margin-bottom: 8px; }
@@ -90,4 +104,6 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-family: "Montserrat", sans-serif; }
   .mockup-sidebar, .mockup-content { width: 100%; }
   .webinar-box { flex-direction: column; align-items: flex-start; gap: 15px; }
   .sort-select { max-width: 100%; }
+  .owned-resource-card { flex-direction: column; }
+  .owned-resource-actions { width: 100%; }
 }

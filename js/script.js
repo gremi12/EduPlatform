@@ -4,8 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const reset = document.querySelector("#resetFilters");
   const items = document.querySelectorAll(".resource-item");
   const categoryCards = document.querySelectorAll("[data-filter-card]");
+  const homeSearchSection = document.querySelector(".home-search");
+  const session = readSupabaseSession();
+  const user = session?.user || null;
 
-  initializeNavbarSessionState();
+  initializeNavbarSessionState(user);
+  initializeFooterSessionState(user);
+  initializeGuestVisibility(user);
+  normalizeAuthEntryLinks();
 
   function normalize(text) {
     return (text || "").toLowerCase().trim();
@@ -43,12 +49,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function initializeNavbarSessionState() {
+  function initializeNavbarSessionState(user) {
     const navbarList = document.querySelector(".navbar-nav");
     if (!navbarList) return;
 
-    const session = readSupabaseSession();
-    const user = session?.user;
+    const restrictedHrefs = ["resources.html", "webinars.html", "community.html", "profile.html"];
+
+    restrictedHrefs.forEach(href => {
+      const item = Array.from(navbarList.querySelectorAll("a")).find(
+        link => link.getAttribute("href") === href
+      )?.closest("li");
+
+      if (!user) {
+        item?.remove();
+      }
+    });
+
     if (!user) return;
 
     const authItem = Array.from(navbarList.querySelectorAll("a")).find(
@@ -82,6 +98,85 @@ document.addEventListener("DOMContentLoaded", () => {
       await signOutEverywhere();
       window.location.href = "login.html";
     });
+  }
+
+  function initializeFooterSessionState(user) {
+    const footer = document.querySelector(".footer");
+    if (!footer) return;
+
+    const platformSection = findFooterSection("Platformă");
+    const featuresSection = findFooterSection("Funcții");
+    const supportSection = findFooterSection("Suport");
+
+    featuresSection?.remove();
+
+    if (!platformSection) return;
+
+    if (!user) {
+      setFooterLinks(platformSection, [
+        { href: "index.html", label: "Acasă" },
+        { href: "contact.html", label: "Contact" },
+      ]);
+
+      if (supportSection) {
+        setFooterLinks(supportSection, [
+          { href: "contact.html", label: "Contact" },
+          { href: "contact.html#gdpr", label: "GDPR" },
+          { href: "contact.html#terms", label: "Termeni" },
+        ]);
+      }
+      return;
+    }
+
+    setFooterLinks(platformSection, [
+      { href: "resources.html", label: "Resurse" },
+      { href: "webinars.html", label: "Webinarii" },
+      { href: "community.html", label: "Comunități" },
+      { href: "profile.html", label: "Profil" },
+    ]);
+
+    if (supportSection) {
+      setFooterLinks(supportSection, [
+        { href: "contact.html", label: "Contact" },
+        { href: "contact.html#gdpr", label: "GDPR" },
+        { href: "contact.html#terms", label: "Termeni" },
+      ]);
+    }
+  }
+
+  function initializeGuestVisibility(user) {
+    if (user) return;
+    homeSearchSection?.remove();
+  }
+
+  function normalizeAuthEntryLinks() {
+    document.querySelectorAll('a[href="login.html"]').forEach(link => {
+      link.setAttribute("href", "login.html#login");
+    });
+
+    document.querySelectorAll('a[href="login.html#register"]').forEach(link => {
+      link.setAttribute("href", "login.html#register");
+    });
+  }
+
+  function findFooterSection(title) {
+    const headings = Array.from(document.querySelectorAll(".footer h6"));
+    return headings.find(heading => heading.textContent.trim() === title)?.parentElement || null;
+  }
+
+  function setFooterLinks(section, links) {
+    if (!section) return;
+    const heading = section.querySelector("h6");
+    section.querySelectorAll("a").forEach(link => link.remove());
+    links.forEach(linkData => {
+      const link = document.createElement("a");
+      link.href = linkData.href;
+      link.textContent = linkData.label;
+      section.appendChild(link);
+    });
+    if (heading) {
+      section.prepend(heading);
+    }
   }
 
   function readSupabaseSession() {
