@@ -27,7 +27,7 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
   function showMessage(target, message, variant) {
     if (!target) return;
     target.className = `alert alert-${variant || "info"} mb-3`;
-    target.textContent = message;
+    target.innerHTML = message;
   }
 
   function clearMessage(target) {
@@ -84,17 +84,29 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
   }
 
   async function requireSession(options) {
-    const redirectTo = options?.redirectTo ?? "login.html";
     const allowedRoles = options?.allowedRoles || [];
 
     if (!client) {
-      return { configured: false, session: null, user: null, profile: null };
+      return {
+        configured: false,
+        session: null,
+        user: null,
+        profile: null,
+        needsLogin: false,
+        unauthorized: false,
+      };
     }
 
     const session = await getSession();
     if (!session?.user) {
-      if (redirectTo) window.location.href = redirectTo;
-      return { configured: true, session: null, user: null, profile: null };
+      return {
+        configured: true,
+        session: null,
+        user: null,
+        profile: null,
+        needsLogin: true,
+        unauthorized: false,
+      };
     }
 
     const user = session.user;
@@ -107,12 +119,18 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
       activity_years: 0,
     };
 
-    if (allowedRoles.length && !allowedRoles.includes(normalizeRole(profile.role))) {
-      window.location.href = getDashboardPath(profile);
-      return { configured: true, session, user, profile };
-    }
+    const unauthorized =
+      allowedRoles.length > 0 &&
+      !allowedRoles.includes(normalizeRole(profile.role));
 
-    return { configured: true, session, user, profile };
+    return {
+      configured: true,
+      session,
+      user,
+      profile,
+      needsLogin: false,
+      unauthorized,
+    };
   }
 
   async function signOut() {

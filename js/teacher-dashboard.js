@@ -18,11 +18,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     authState = await supabaseApi.requireSession({
-      redirectTo: "login.html",
       allowedRoles: ["profesor"],
     });
 
-    if (!authState?.user) return;
+    if (authState.needsLogin) {
+      supabaseApi.showMessage(
+        messageBox,
+        'Trebuie să te autentifici înainte de a încărca resurse. <a href="login.html" class="alert-link">Mergi la autentificare</a>.',
+        "warning"
+      );
+      if (publishButton) publishButton.disabled = true;
+      return;
+    }
+
+    if (authState.unauthorized) {
+      supabaseApi.showMessage(
+        messageBox,
+        'Contul curent nu are rol de profesor. <a href="profile.html" class="alert-link">Deschide profilul</a>.',
+        "warning"
+      );
+      if (publishButton) publishButton.disabled = true;
+      return;
+    }
+
     await loadStats(authState.user.id);
   } catch (error) {
     supabaseApi.showMessage(
@@ -39,7 +57,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const file = document.querySelector("#resourceFile")?.files?.[0];
     if (!file) {
-      supabaseApi.showMessage(messageBox, "Selectează un fișier înainte de upload.", "warning");
+      supabaseApi.showMessage(
+        messageBox,
+        "Selectează un fișier înainte de upload.",
+        "warning"
+      );
       return;
     }
 

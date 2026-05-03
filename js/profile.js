@@ -15,8 +15,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const authState = await supabaseApi.requireSession({ redirectTo: "login.html" });
-    if (!authState?.user) return;
+    const authState = await supabaseApi.requireSession();
+
+    if (authState.needsLogin) {
+      supabaseApi.showMessage(
+        messageBox,
+        'Nu ești autentificat. <a href="login.html" class="alert-link">Mergi la autentificare</a>.',
+        "warning"
+      );
+      resourcesContainer.innerHTML = "";
+      return;
+    }
 
     renderProfile(authState.user, authState.profile);
     await renderResources(authState.user.id);
@@ -30,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   logoutButton?.addEventListener("click", async () => {
     await supabaseApi.signOut();
-    window.location.href = "login.html";
+    window.location.replace("login.html");
   });
 
   function renderProfile(user, profile) {
