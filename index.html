@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+
+  <title>EduPlatform | Home</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar py-3 sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="index.html">
+      <i class="fa-solid fa-book-open me-2"></i>EduPlatform
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
+        <li class="nav-item"><a class="nav-link " href="resources.html">Resurse</a></li>
+<li class="nav-item"><a class="nav-link " href="webinars.html">Webinarii</a></li>
+<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
+<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
+        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
+        <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="badge rounded-pill custom-badge mb-3">COMUNITATE EDUCAȚIONALĂ</span>
+        <h1 class="hero-title mb-4">Dezvoltarea platformei „Comunitate educațională pentru profesori”</h1>
+        <ul class="list-unstyled hero-list">
+          <li><i class="fa-solid fa-circle-check"></i> Platformă pentru colaborarea profesorilor</li>
+          <li><i class="fa-solid fa-circle-check"></i> Schimb de resurse educaționale</li>
+          <li><i class="fa-solid fa-circle-check"></i> Participare la webinarii</li>
+          <li><i class="fa-solid fa-circle-check"></i> Îmbunătățirea procesului educațional</li>
+        </ul>
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-4">Creează cont gratuit</a>
+          <a href="resources.html" class="btn btn-outline-primary btn-lg px-4">Explorează resurse</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-mockup shadow-lg">
+          <div class="mockup-sidebar">
+            <h6>EduPlatform</h6>
+            <p><i class="fa-solid fa-house"></i> Home</p>
+            <p><i class="fa-solid fa-folder"></i> Resurse</p>
+            <p><i class="fa-solid fa-calendar"></i> Webinarii</p>
+            <p><i class="fa-solid fa-users"></i> Comunități</p>
+          </div>
+          <div class="mockup-content">
+            <h6>Resurse populare</h6>
+            <div class="row g-3 mb-4">
+              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-square-root-variable text-primary"></i><strong>Lecție Matematică</strong><small>PDF · 4.8</small></div></div>
+              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-code text-success"></i><strong>Algoritmi</strong><small>PDF · 4.7</small></div></div>
+              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-book text-warning"></i><strong>Plan lecție</strong><small>DOCX · 4.9</small></div></div>
+            </div>
+            <h6>Webinarii viitoare</h6>
+            <div class="webinar-box">
+              <div><strong>Strategii de predare eficiente</strong><small>12 Mai 2026 · 17:00</small></div>
+              <a href="webinars.html" class="btn btn-primary btn-sm">Înscrie-te</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="home-search mt-5">
+      <div class="row g-3">
+        <div class="col-lg-7"><input class="form-control form-control-lg" type="search" placeholder="Caută resurse: matematică, informatică, limba română..."></div>
+        <div class="col-lg-3">
+          <select class="form-select form-select-lg">
+            <option>Toate categoriile</option><option>Informatică</option><option>Științe</option><option>Limba Română</option><option>Matematică</option>
+          </select>
+        </div>
+        <div class="col-lg-2"><a href="resources.html" class="btn btn-primary custom-btn btn-lg w-100">Caută</a></div>
+      </div>
+    </form>
+  </div>
+</header>
+
+<main class="py-5">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-bullseye"></i><h5>Scopul platformei</h5><ul><li>Platformă colaborativă</li><li>Acces la resurse educaționale</li><li>Îmbunătățirea educației</li></ul></div></div>
+      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-users"></i><h5>Public țintă</h5><ul><li>Profesori</li><li>Educatori</li><li>Metodiști</li><li>Organizatori cursuri</li></ul></div></div>
+      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-user-shield"></i><h5>Roluri în sistem</h5><ul><li>Vizitator</li><li>Profesor</li><li>Moderator</li><li>Organizator webinar</li><li>Administrator</li></ul></div></div>
+      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-sitemap"></i><h5>Structura platformei</h5><ul><li>Pagina principală</li><li>Catalog resurse</li><li>Pagina resursă</li><li>Webinarii</li><li>Profil utilizator</li></ul></div></div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-gear"></i><h5>Funcționalități principale</h5><ul><li>Înregistrare utilizatori</li><li>Upload / download resurse</li><li>Căutare și filtre</li><li>Comentarii și evaluări</li><li>Participare la webinarii</li></ul></div></div>
+      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-laptop-code"></i><h5>Tehnologii utilizate</h5><ul><li>Frontend: HTML, CSS, JavaScript</li><li>Backend: Node.js / Django</li><li>Bază de date: PostgreSQL</li><li>Hosting: AWS / Vercel / Supabase</li></ul></div></div>
+      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-lock"></i><h5>Securitate</h5><ul><li>Protecția datelor personale</li><li>Autentificare securizată</li><li>SSL / criptare</li><li>Respectarea GDPR</li></ul></div></div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-wallet"></i><h5>Model de business</h5><ul><li>Acces gratuit</li><li>Abonament Pro</li><li>Cursuri plătite</li><li>Parteneriate</li></ul></div></div>
+      <div class="col-lg-8"><div class="info-card h-100"><h5 class="mb-4">Cum funcționează?</h5><div class="row text-center g-4">
+        <div class="col-md-3"><i class="fa-solid fa-user-plus step-icon"></i><h6>Creează cont</h6><p>Înscriere gratuită.</p></div>
+        <div class="col-md-3"><i class="fa-solid fa-cloud-arrow-up step-icon"></i><h6>Încarcă resurse</h6><p>Distribuie materiale.</p></div>
+        <div class="col-md-3"><i class="fa-solid fa-comments step-icon"></i><h6>Colaborează</h6><p>Comentează și evaluează.</p></div>
+        <div class="col-md-3"><i class="fa-solid fa-calendar-days step-icon"></i><h6>Participă</h6><p>Înscrie-te la webinarii.</p></div>
+      </div></div></div>
+    </div>
+
+    <section class="cta-section p-4 p-lg-5 rounded-4 d-flex flex-column flex-lg-row justify-content-between align-items-center gap-3">
+      <div><h2>Alătură-te comunității noastre!</h2><p class="mb-0">Împreună pentru o educație mai bună.</p></div>
+      <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-5">Creează cont gratuit</a>
+    </section>
+  </div>
+</main>
+
+<footer class="footer py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <h4><i class="fa-solid fa-book-open me-2"></i>EduPlatform</h4>
+        <p>Comunitate educațională pentru profesori. Împreună pentru o educație mai bună.</p>
+      </div>
+      <div class="col-lg-2">
+        <h6>Platformă</h6>
+        <a href="resources.html">Resurse</a>
+        <a href="webinars.html">Webinarii</a>
+        <a href="community.html">Comunități</a>
+        <a href="profile.html">Profil</a>
+      </div>
+      <div class="col-lg-2">
+        <h6>Funcții</h6>
+        <a href="upload.html">Upload resurse</a>
+        </div>
+      <div class="col-lg-2">
+        <h6>Suport</h6>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#gdpr">GDPR</a>
+        <a href="contact.html#terms">Termeni</a>
+      </div>
+      
+      </div>
+    </div>
+    <hr class="border-light mt-4">
+    <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./js/script.js"></script>
+
+</body>
+</html>
