@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const items = document.querySelectorAll(".resource-item");
   const categoryCards = document.querySelectorAll("[data-filter-card]");
   const homeSearchSection = document.querySelector(".home-search");
+  const guestRestrictedHeroLinks = document.querySelectorAll(
+    '.hero-section a[href="resources.html"], .hero-section a[href="webinars.html"]'
+  );
   const session = readSupabaseSession();
   const user = session?.user || null;
 
@@ -147,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializeGuestVisibility(user) {
     if (user) return;
     homeSearchSection?.remove();
+    guestRestrictedHeroLinks.forEach(link => link.remove());
   }
 
   function normalizeAuthEntryLinks() {
