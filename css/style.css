@@ -4,6 +4,20 @@
 body { margin: 0; font-family: "Open Sans", sans-serif; color: #1f2937; background-color: #fff; }
 h1, h2, h3, h4, h5, h6, .navbar-brand { font-family: "Montserrat", sans-serif; }
 
+body:not(.is-authenticated) .navbar a[href="resources.html"],
+body:not(.is-authenticated) .navbar a[href="webinars.html"],
+body:not(.is-authenticated) .navbar a[href="community.html"],
+body:not(.is-authenticated) .navbar a[href="profile.html"],
+body:not(.is-authenticated) .footer a[href="resources.html"],
+body:not(.is-authenticated) .footer a[href="webinars.html"],
+body:not(.is-authenticated) .footer a[href="community.html"],
+body:not(.is-authenticated) .footer a[href="profile.html"],
+body:not(.is-authenticated) .hero-section a[href="resources.html"],
+body:not(.is-authenticated) .hero-section a[href="webinars.html"],
+body:not(.is-authenticated) .home-search {
+  display: none !important;
+}
+
 .custom-navbar { background: linear-gradient(90deg, #1E3A8A, #0f2a68); box-shadow: 0 10px 25px rgba(30,58,138,.15); }
 .navbar .nav-link { color: #fff !important; font-weight: 600; }
 .navbar .nav-link:hover, .navbar .nav-link.active { opacity: .8; }

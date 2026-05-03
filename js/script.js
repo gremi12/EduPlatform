@@ -11,6 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const session = readSupabaseSession();
   const user = session?.user || null;
 
+  if (user) {
+    document.body.classList.add("is-authenticated");
+  } else {
+    document.body.classList.remove("is-authenticated");
+  }
+
   initializeNavbarSessionState(user);
   initializeFooterSessionState(user);
   initializeGuestVisibility(user);
