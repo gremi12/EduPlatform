@@ -127,11 +127,20 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
       activity_years: 0,
     };
 
-    if (user.user_metadata?.full_name) {
+    if (user.user_metadata?.full_name && !profile.full_name) {
       profile.full_name = user.user_metadata.full_name;
     }
-    if (user.user_metadata?.role) {
+    if (user.user_metadata?.role && !profile.role) {
       profile.role = normalizeRole(user.user_metadata.role);
+    }
+
+    if (profile.account_status && profile.account_status !== "active") {
+      await signOut();
+      const label =
+        profile.account_status === "banned" ? "banat" : "dezactivat";
+      throw new Error(
+        `Contul tau este ${label}. Contacteaza administratorul platformei pentru reactivare.`
+      );
     }
 
     const unauthorized =

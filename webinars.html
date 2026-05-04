@@ -20,20 +20,16 @@
     </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link " href="resources.html">Resurse</a></li>
-<li class="nav-item"><a class="nav-link " href="webinars.html">Webinarii</a></li>
-<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
-<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
-       <li class="nav-item">
-  <a class="btn btn-outline-light px-3 mb-2" href="login.html">
-    Autentificare
-  </a>
-</li>
-<li class="nav-item">
-  <a class="btn btn-primary custom-btn px-3" href="login.html#register">
-    Înregistrare
-  </a>
-</li> 
+        <li class="nav-item"><a class="nav-link" href="resources.html">Resurse</a></li>
+        <li class="nav-item"><a class="nav-link" href="webinars.html">Webinarii</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html">Comunitati</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light px-3 mb-2" href="login.html#login">Autentificare</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-primary custom-btn px-3" href="login.html#register">Inregistrare</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -50,43 +46,32 @@
 <main class="py-5">
   <div class="container">
     <div id="webinarMessage" class="mb-4"></div>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="info-card h-100 webinar-card">
-          <i class="fa-solid fa-calendar-days"></i>
-          <h5>Strategii de predare eficiente</h5>
-          <p>12 Mai 2026 · 17:00 · Dr. Maria Popa</p>
-          <p class="small text-secondary">Metode practice pentru implicarea elevilor si proiectarea lectiilor moderne.</p>
-          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="strategii-predare" data-webinar-title="Strategii de predare eficiente" data-webinar-date="12 Mai 2026 · 17:00">
-            Inscrie-te
-          </button>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="info-card h-100 webinar-card">
-          <i class="fa-solid fa-video"></i>
-          <h5>Instrumente digitale pentru clasa</h5>
-          <p>18 Mai 2026 · 18:00 · Andrei Vasile</p>
-          <p class="small text-secondary">Aplicatii si fluxuri digitale care ii ajuta pe profesori sa organizeze lectii interactive.</p>
-          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="instrumente-digitale" data-webinar-title="Instrumente digitale pentru clasa" data-webinar-date="18 Mai 2026 · 18:00">
-            Inscrie-te
-          </button>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="info-card h-100 webinar-card">
-          <i class="fa-solid fa-chalkboard-user"></i>
-          <h5>Evaluare moderna</h5>
-          <p>25 Mai 2026 · 16:30 · Elena Rusu</p>
-          <p class="small text-secondary">Exemple de evaluare formativa, feedback eficient si rubrici moderne.</p>
-          <button type="button" class="btn btn-outline-primary webinar-register-button" data-webinar-slug="evaluare-moderna" data-webinar-title="Evaluare moderna" data-webinar-date="25 Mai 2026 · 16:30">
-            Inscrie-te
-          </button>
+    <div class="row g-4" id="webinarsGrid">
+      <div class="col-12">
+        <div class="info-card text-center text-muted">
+          Se incarca webinariile disponibile...
         </div>
       </div>
     </div>
+
+    <section id="webinarLibrarySection" class="mt-5 d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="section-title mb-1">Cursurile mele video</h2>
+          <p class="text-secondary mb-0">
+            Dupa inscriere, aici gasesti lectiile video si materialele pentru cursurile la care ai acces.
+          </p>
+        </div>
+        <span class="text-muted small" id="webinarLibraryMeta">0 cursuri active</span>
+      </div>
+      <div id="webinarLibraryGrid" class="row g-4">
+        <div class="col-12">
+          <div class="info-card text-center text-muted">
+            Inca nu ai cursuri video de afisat.
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -137,6 +122,63 @@
   </div>
 </div>
 
+<div class="modal fade" id="webinarLessonModal" tabindex="-1" aria-labelledby="webinarLessonModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title" id="webinarLessonModalLabel">Lectie video</h5>
+          <small id="webinarLessonModalMeta" class="text-muted d-block mt-1"></small>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Inchide"></button>
+      </div>
+      <div class="modal-body">
+        <div class="ratio ratio-16x9 webinar-video-frame">
+          <video id="webinarLessonVideo" class="d-none" controls playsinline></video>
+          <iframe
+            id="webinarLessonFrame"
+            src=""
+            title="Lectie video webinar"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="mt-3">
+          <h6 class="mb-2" id="webinarLessonTitle">Lectie</h6>
+          <p class="text-secondary mb-0" id="webinarLessonDescription"></p>
+        </div>
+        <hr class="my-4">
+        <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+          <div>
+            <h6 class="mb-1">Comentarii lectie</h6>
+            <p class="text-secondary small mb-0">Pune intrebari sau lasa observatii direct sub lectia video.</p>
+          </div>
+          <span class="text-muted small" id="webinarCommentsMeta">0 comentarii</span>
+        </div>
+        <div id="webinarCommentsMessage" class="mb-3"></div>
+        <div id="webinarCommentsList" class="community-chat-messages webinar-comments-list mb-3">
+          <div class="text-muted">Se incarca comentariile...</div>
+        </div>
+        <form id="webinarCommentForm">
+          <input type="hidden" id="webinarCommentLessonId">
+          <input type="hidden" id="webinarCommentSlug">
+          <label class="form-label" for="webinarCommentInput">Adauga un comentariu</label>
+          <textarea
+            id="webinarCommentInput"
+            class="form-control mb-3"
+            rows="3"
+            placeholder="Scrie o intrebare sau un feedback pentru aceasta lectie."
+            required
+          ></textarea>
+          <button id="submitWebinarCommentButton" type="submit" class="btn btn-primary custom-btn">
+            Trimite comentariul
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer class="footer py-5">
   <div class="container">
     <div class="row g-4">
@@ -158,7 +200,7 @@
       </div>
     </div>
     <hr class="border-light mt-4">
-    <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
+    <p class="mb-0 small text-center">&copy; 2026 EduPlatform. Toate drepturile rezervate.</p>
   </div>
 </footer>
 

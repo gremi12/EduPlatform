@@ -191,6 +191,9 @@
           <div class="col-lg-5">
             <div class="community-post-form-wrap">
               <h3 class="h5 mb-3">Publica o postare</h3>
+              <p class="text-secondary small mb-3">
+                Postarile functioneaza ca anunturi sau intrebari mai mari pentru toata comunitatea.
+              </p>
               <div id="communityFormMessage" class="mb-3"></div>
               <form id="communityPostForm">
                 <div class="mb-3">
@@ -215,6 +218,83 @@
             </div>
             <div id="communityPostsList" class="community-posts-list">
               <div class="text-muted">Selecteaza un grup pentru a vedea postarile.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-4">
+            <div class="community-side-panel h-100">
+              <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+                <div>
+                  <h3 class="h5 mb-1">Teme de discutie</h3>
+                  <p class="text-secondary small mb-0">Creeaza o tema si porneste chatul dedicat unui subiect.</p>
+                </div>
+                <span class="text-muted small" id="communityTopicsMeta">0 teme</span>
+              </div>
+
+              <div id="communityTopicFormMessage" class="mb-3"></div>
+              <form id="communityTopicForm" class="mb-4">
+                <div class="mb-3">
+                  <label class="form-label" for="communityTopicTitle">Titlu tema</label>
+                  <input
+                    id="communityTopicTitle"
+                    type="text"
+                    class="form-control"
+                    placeholder="Ex: Probleme la algebra pentru test"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="communityTopicDescription">Descriere scurta</label>
+                  <textarea
+                    id="communityTopicDescription"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Scrie pe scurt ce vrei sa discutati in aceasta tema."
+                  ></textarea>
+                </div>
+                <button id="communityTopicSubmitButton" class="btn btn-outline-primary w-100" type="submit">
+                  Creeaza tema
+                </button>
+              </form>
+
+              <div id="communityTopicsList" class="community-topics-list">
+                <div class="text-muted">Selecteaza o comunitate pentru a vedea temele de discutie.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="community-chat-wrap h-100">
+              <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+                <div>
+                  <h3 class="h5 mb-1" id="communityActiveTopicTitle">Alege o tema</h3>
+                  <p class="text-secondary mb-0" id="communityActiveTopicDescription">
+                    Dupa ce selectezi o tema, aici apar intrebarile si raspunsurile din chat.
+                  </p>
+                </div>
+                <span class="text-muted small" id="communityChatMeta">0 mesaje</span>
+              </div>
+
+              <div id="communityChatMessage" class="mb-3"></div>
+              <div id="communityTopicMessages" class="community-chat-messages mb-3">
+                <div class="text-muted">Alege o tema ca sa vezi discutia.</div>
+              </div>
+
+              <form id="communityMessageForm">
+                <label class="form-label" for="communityMessageContent">Trimite un mesaj in tema activa</label>
+                <textarea
+                  id="communityMessageContent"
+                  class="form-control mb-3"
+                  rows="4"
+                  placeholder="Pune o intrebare, ofera un raspuns sau cere ajutor pe aceasta tema."
+                  required
+                ></textarea>
+                <button id="communityMessageSubmitButton" class="btn btn-primary custom-btn" type="submit">
+                  Trimite mesaj
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -254,4 +334,3 @@
   <script src="./js/community.js"></script>
 </body>
 </html>
-

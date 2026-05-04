@@ -137,6 +137,37 @@ body.is-authenticated .navbar a[href="/login#register"] {
 .community-member-item strong { color: #1E3A8A; display: block; }
 .community-member-item small { color: #6b7280; display: block; }
 .community-member-badge { white-space: nowrap; font-size: .8rem; font-weight: 700; color: #1E3A8A; background: #dbeafe; border-radius: 999px; padding: 6px 10px; }
+.community-topics-list { display: flex; flex-direction: column; gap: 14px; }
+.community-topic-card { border: 1px solid #dbeafe; border-radius: 16px; background: #fff; padding: 14px; transition: .2s ease; }
+.community-topic-card-active { border-color: #3B82F6; box-shadow: 0 10px 25px rgba(59,130,246,.12); }
+.community-topic-select { width: 100%; border: 0; background: transparent; padding: 0; text-align: left; }
+.community-topic-select strong { color: #1E3A8A; display: block; margin-bottom: 6px; }
+.community-topic-select small { color: #6b7280; display: block; line-height: 1.5; margin-bottom: 8px; }
+.community-topic-select span { color: #3B82F6; font-size: .85rem; font-weight: 700; }
+.community-chat-wrap { background: #f8fbff; border: 1px solid #dbeafe; border-radius: 20px; padding: 24px; }
+.community-chat-messages { display: flex; flex-direction: column; gap: 14px; min-height: 280px; max-height: 560px; overflow-y: auto; }
+.community-chat-message { background: #fff; border: 1px solid #e5e7eb; border-radius: 18px; padding: 16px 18px; box-shadow: 0 8px 20px rgba(30,58,138,.05); }
+.community-chat-message-own { border-color: #bfdbfe; background: #eff6ff; }
+.community-chat-message-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+.community-chat-message-head strong { color: #1E3A8A; display: block; margin-bottom: 4px; }
+.community-chat-message-head small { color: #6b7280; display: block; }
+.webinar-library-card { background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%); }
+.webinar-lesson-list { display: flex; flex-direction: column; gap: 14px; }
+.webinar-lesson-item { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid #e5e7eb; }
+.webinar-lesson-item strong { color: #1E3A8A; display: block; margin-bottom: 6px; }
+.webinar-lesson-item-button { width: 100%; border: 0; text-align: left; cursor: pointer; transition: .2s ease; }
+.webinar-lesson-item-button:hover { border-color: #bfdbfe; background: #eff6ff; }
+.webinar-course-shell { background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%); }
+.webinar-course-hero { background: linear-gradient(180deg, #122c72 0%, #1E3A8A 100%); color: #fff; border-radius: 22px; padding: 28px; min-height: 100%; }
+.webinar-course-hero h3 { color: #fff; font-weight: 800; margin-bottom: 14px; }
+.webinar-course-summary { color: #dbeafe; line-height: 1.7; }
+.webinar-course-meta { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; font-weight: 600; }
+.webinar-course-meta span { color: #eff6ff; }
+.webinar-curriculum-card { background: #fff; border: 1px solid #dbeafe; border-radius: 20px; padding: 22px; min-height: 100%; }
+.webinar-comments-list { min-height: 120px; max-height: 340px; }
+.webinar-video-frame { overflow: hidden; border-radius: 18px; background: #0f172a; }
+.webinar-video-frame iframe { border: 0; width: 100%; height: 100%; }
+.webinar-video-frame video { object-fit: contain; background: #0f172a; }
 .feedback-actions { display: flex; justify-content: flex-end; }
 .feedback-rating { color: #f59e0b; font-weight: 800; }
 .resource-feedback-form { background: #f8fbff; border: 1px solid #dbeafe; border-radius: 20px; padding: 24px; }
@@ -171,6 +202,12 @@ body.is-authenticated .navbar a[href="/login#register"] {
 .admin-role-admin { background: #dbeafe; color: #1E3A8A; }
 .admin-role-profesor { background: #dcfce7; color: #166534; }
 .admin-role-elev { background: #fef3c7; color: #92400e; }
+.admin-role-moderator { background: #ede9fe; color: #5b21b6; }
+.admin-role-organizator { background: #e0f2fe; color: #075985; }
+.admin-status-badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 8px 12px; font-size: .8rem; font-weight: 800; }
+.admin-status-active { background: #dcfce7; color: #166534; }
+.admin-status-banned { background: #fee2e2; color: #991b1b; }
+.admin-status-disabled { background: #e5e7eb; color: #374151; }
 
 .footer { background: linear-gradient(90deg, #1E3A8A, #0f2a68); color: #fff; }
 .footer a { display: block; color: #dbeafe; text-decoration: none; margin-bottom: 8px; }
@@ -184,5 +221,15 @@ body.is-authenticated .navbar a[href="/login#register"] {
   .owned-resource-card { flex-direction: column; }
   .owned-resource-actions { width: 100%; }
   .community-post-head, .feedback-card-head { flex-direction: column; }
+  .community-chat-message-head, .webinar-lesson-item, .community-member-item { flex-direction: column; }
   .admin-toolbar { align-items: flex-start; }
+  .navbar .navbar-nav > .nav-item:last-child {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar .btn.mb-2 {
+    margin-bottom: 0 !important;
+  }
 }
