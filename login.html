@@ -53,7 +53,13 @@
             <label class="form-label" for="registerEmail">Email</label>
             <input id="registerEmail" class="form-control mb-3" type="email" placeholder="nume@email.com" required>
             <label class="form-label" for="registerPassword">Parola</label>
-            <input id="registerPassword" class="form-control mb-3" type="password" placeholder="Minimum 6 caractere" required minlength="6">
+            <div class="password-input-wrap mb-2">
+              <input id="registerPassword" class="form-control" type="password" placeholder="Minimum 8 caractere, un numar si un simbol" required>
+              <button class="password-toggle-button" type="button" data-toggle-password="registerPassword" aria-label="Arata parola">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <small class="text-muted d-block mb-3">Parola trebuie sa aiba minim 8 caractere, cel putin un numar si un simbol.</small>
             <label class="form-label" for="registerRole">Rol</label>
             <select id="registerRole" class="form-select mb-3" required>
               <option value="profesor">Profesor</option>
@@ -79,7 +85,13 @@
             <label class="form-label" for="loginEmail">Email</label>
             <input id="loginEmail" class="form-control mb-3" type="email" placeholder="nume@email.com" required>
             <label class="form-label" for="loginPassword">Parola</label>
-            <input id="loginPassword" class="form-control mb-3" type="password" placeholder="Parola ta" required minlength="6">
+            <div class="password-input-wrap mb-2">
+              <input id="loginPassword" class="form-control" type="password" placeholder="Parola ta" required>
+              <button class="password-toggle-button" type="button" data-toggle-password="loginPassword" aria-label="Arata parola">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <small class="text-muted d-block mb-3">Parola trebuie sa aiba minim 8 caractere, cel putin un numar si un simbol.</small>
             <button id="resetPasswordButton" class="btn btn-link p-0 auth-switch-link mb-4" type="button">Ai uitat parola? Reseteaza parola</button>
             <button class="btn btn-primary custom-btn w-100" type="submit">Autentificare</button>
           </form>

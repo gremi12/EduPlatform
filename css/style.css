@@ -187,6 +187,22 @@ body.is-authenticated .navbar a[href="/login#register"] {
 .auth-switch { display: flex; justify-content: center; align-items: center; gap: 8px; color: #4b5563; font-weight: 600; }
 .auth-switch-link { color: #1E3A8A; font-weight: 800; text-decoration: none; }
 .auth-switch-link:hover { color: #3B82F6; }
+.password-input-wrap { position: relative; }
+.password-input-wrap .form-control { padding-right: 48px; }
+.password-toggle-button {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.password-toggle-button:hover { color: #1E3A8A; }
 .admin-auth-wrap { display: flex; justify-content: center; }
 .admin-auth-card { max-width: 560px; width: 100%; }
 .admin-shell { padding: 24px 28px; }

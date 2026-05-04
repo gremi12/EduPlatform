@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const showRegisterButton = document.querySelector("#showRegisterButton");
   const loginEmail = document.querySelector("#loginEmail");
   const resetPasswordButton = document.querySelector("#resetPasswordButton");
+  const passwordToggleButtons = document.querySelectorAll("[data-toggle-password]");
+
+  const passwordRuleMessage =
+    "Parola trebuie sa aiba minim 8 caractere, cel putin un numar si un simbol.";
 
   syncViewWithRoute();
   window.addEventListener("hashchange", syncViewWithRoute);
@@ -27,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   toggleStudentClassField();
   registerRole?.addEventListener("change", toggleStudentClassField);
+  initializePasswordToggles();
 
   showLoginButton?.addEventListener("click", () => {
     showLoginView();
@@ -95,6 +100,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const email = loginEmail?.value.trim();
     const password = document.querySelector("#loginPassword")?.value;
 
+    if (!isValidPassword(password)) {
+      supabaseApi.showMessage(loginMessage, passwordRuleMessage, "warning");
+      showLoginView();
+      return;
+    }
+
     try {
       const { error } = await supabaseApi.client.auth.signInWithPassword({
         email,
@@ -130,6 +141,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           .map(value => value.trim())
           .filter(Boolean)
       : [];
+
+    if (!isValidPassword(password)) {
+      supabaseApi.showMessage(registerMessage, passwordRuleMessage, "warning");
+      return;
+    }
 
     if (role === "elev" && !classLevel) {
       supabaseApi.showMessage(
@@ -205,6 +221,35 @@ document.addEventListener("DOMContentLoaded", async () => {
       registerClassLevel.required = isStudent;
       if (!isStudent) registerClassLevel.value = "";
     }
+  }
+
+  function initializePasswordToggles() {
+    passwordToggleButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const inputId = button.dataset.togglePassword;
+        const input = document.querySelector(`#${inputId}`);
+        const icon = button.querySelector("i");
+        if (!input) return;
+
+        const showPassword = input.type === "password";
+        input.type = showPassword ? "text" : "password";
+
+        if (icon) {
+          icon.className = showPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+        }
+
+        button.setAttribute("aria-label", showPassword ? "Ascunde parola" : "Arata parola");
+      });
+    });
+  }
+
+  function isValidPassword(password) {
+    const value = String(password || "");
+    return (
+      value.length >= 8 &&
+      /[0-9]/.test(value) &&
+      /[^A-Za-z0-9]/.test(value)
+    );
   }
 
   function showLoginView() {
