@@ -14,9 +14,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loginEmail = document.querySelector("#loginEmail");
   const resetPasswordButton = document.querySelector("#resetPasswordButton");
 
+  syncViewWithRoute();
+  window.addEventListener("hashchange", syncViewWithRoute);
+
   if (!supabaseApi?.isConfigured) {
     const configMessage =
-      "Completează mai întâi valorile din js/supabaseClient.js cu URL-ul și cheia publică din Supabase.";
+      "Completeaza mai intai valorile din js/supabaseClient.js cu URL-ul si cheia publica din Supabase.";
     supabaseApi?.showMessage(registerMessage, configMessage, "warning");
     supabaseApi?.showMessage(loginMessage, configMessage, "warning");
     return;
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!email) {
       supabaseApi.showMessage(
         loginMessage,
-        "Introdu emailul și apoi apasă pe resetare parolă.",
+        "Introdu emailul si apoi apasa pe resetare parola.",
         "warning"
       );
       showLoginView();
@@ -51,14 +54,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const { error } = await supabaseApi.client.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.href.split("#")[0] + "#login",
+        redirectTo: `${window.location.href.split("#")[0]}#login`,
       });
 
       if (error) throw error;
 
       supabaseApi.showMessage(
         loginMessage,
-        "Ți-am trimis emailul pentru resetarea parolei.",
+        "Ti-am trimis emailul pentru resetarea parolei.",
         "success"
       );
       showLoginView();
@@ -72,12 +75,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  if (window.location.hash === "#login") {
-    showLoginView();
-  } else {
-    showRegisterView();
-  }
-
   try {
     const authState = await supabaseApi.requireSession({ redirectTo: null });
     if (authState?.user) {
@@ -86,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     supabaseApi.showMessage(
       registerMessage,
-      error.message || "Nu am putut verifica sesiunea curentă.",
+      error.message || "Nu am putut verifica sesiunea curenta.",
       "danger"
     );
   }
@@ -111,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       supabaseApi.showMessage(
         loginMessage,
-        error.message || "Autentificarea a eșuat.",
+        error.message || "Autentificarea a esuat.",
         "danger"
       );
       showLoginView();
@@ -126,12 +123,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const email = document.querySelector("#registerEmail")?.value.trim();
     const password = document.querySelector("#registerPassword")?.value;
     const role = supabaseApi.normalizeRole(registerRole?.value);
-    const classLevel = registerClassLevel?.value || "";
+    const classLevel = registerClassLevel?.value.trim() || "";
+    const enrolledClasses = classLevel
+      ? classLevel
+          .split(",")
+          .map(value => value.trim())
+          .filter(Boolean)
+      : [];
 
     if (role === "elev" && !classLevel) {
       supabaseApi.showMessage(
         registerMessage,
-        "Selectează clasa pentru contul de elev.",
+        "Completeaza clasa pentru contul de elev.",
         "warning"
       );
       return;
@@ -146,6 +149,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             full_name: fullName,
             role,
             class_level: role === "elev" ? classLevel : null,
+            enrolled_classes: role === "elev" ? enrolledClasses : [],
           },
         },
       });
@@ -160,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       supabaseApi.showMessage(
         registerMessage,
-        "Cont creat. Verifică emailul pentru confirmare, apoi autentifică-te.",
+        "Cont creat. Verifica emailul pentru confirmare, apoi autentifica-te.",
         "success"
       );
       registerForm.reset();
@@ -170,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       supabaseApi.showMessage(
         registerMessage,
-        error.message || "Înregistrarea a eșuat.",
+        error.message || "Inregistrarea a esuat.",
         "danger"
       );
     }
@@ -180,10 +184,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const destination = supabaseApi.getDashboardPath(profile);
     registerMessage.className = "alert alert-info mb-3";
     registerMessage.innerHTML = `
-      Ești deja autentificat.
+      Esti deja autentificat.
       <div class="mt-2 d-flex flex-wrap gap-2">
-        <a class="btn btn-sm btn-primary" href="${destination}">Continuă în cont</a>
-        <button id="logoutFromLoginPage" type="button" class="btn btn-sm btn-outline-secondary">Deconectează-mă</button>
+        <a class="btn btn-sm btn-primary" href="${destination}">Continua in cont</a>
+        <button id="logoutFromLoginPage" type="button" class="btn btn-sm btn-outline-secondary">Deconecteaza-ma</button>
       </div>
     `;
 
@@ -213,5 +217,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     loginPanel?.classList.add("d-none");
     registerPanel?.classList.remove("d-none");
     window.history.replaceState(null, "", "#register");
+  }
+
+  function syncViewWithRoute() {
+    if (window.location.hash === "#register") {
+      showRegisterView();
+      return;
+    }
+
+    showLoginView();
   }
 });

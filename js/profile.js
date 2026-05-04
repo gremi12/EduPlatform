@@ -9,13 +9,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const saveResourceChangesButton = document.querySelector("#saveResourceChangesButton");
   const editModalElement = document.querySelector("#editResourceModal");
   const editModal = editModalElement ? new bootstrap.Modal(editModalElement) : null;
+
   let currentUserId = null;
   let currentResources = [];
 
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
       messageBox,
-      "Completează întâi valorile din js/supabaseClient.js pentru a încărca profilul din Supabase.",
+      "Completeaza mai intai valorile din js/supabaseClient.js pentru a incarca profilul din Supabase.",
       "warning"
     );
     return;
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (authState.needsLogin) {
       supabaseApi.showMessage(
         messageBox,
-        'Nu ești autentificat. <a href="login.html" class="alert-link">Mergi la autentificare</a>.',
+        'Nu esti autentificat. <a href="login.html#login" class="alert-link">Mergi la autentificare</a>.',
         "warning"
       );
       resourcesContainer.innerHTML = "";
@@ -40,14 +41,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     supabaseApi.showMessage(
       messageBox,
-      error.message || "Profilul nu a putut fi încărcat.",
+      error.message || "Profilul nu a putut fi incarcat.",
       "danger"
     );
   }
 
   logoutButton?.addEventListener("click", async () => {
     await supabaseApi.signOut();
-    window.location.replace("login.html");
+    window.location.replace("login.html#login");
   });
 
   resourcesContainer?.addEventListener("click", async event => {
@@ -55,14 +56,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const deleteButton = event.target.closest("[data-action='delete-resource']");
 
     if (editButton) {
-      const resourceId = editButton.dataset.resourceId;
-      openEditModal(resourceId);
+      openEditModal(editButton.dataset.resourceId);
       return;
     }
 
     if (deleteButton) {
-      const resourceId = deleteButton.dataset.resourceId;
-      await deleteResource(resourceId);
+      await deleteResource(deleteButton.dataset.resourceId);
     }
   });
 
@@ -76,13 +75,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       category: document.querySelector("#editResourceCategory")?.value,
       class_level: document.querySelector("#editResourceClassLevel")?.value.trim(),
       format: document.querySelector("#editResourceFormat")?.value,
+      license_type: document.querySelector("#editResourceLicense")?.value,
       description: document.querySelector("#editResourceDescription")?.value.trim(),
     };
 
     try {
       if (saveResourceChangesButton) {
         saveResourceChangesButton.disabled = true;
-        saveResourceChangesButton.textContent = "Se salvează...";
+        saveResourceChangesButton.textContent = "Se salveaza...";
       }
 
       const { error } = await supabaseApi.client
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       editModal?.hide();
       await renderResources(currentUserId);
-      supabaseApi.showMessage(messageBox, "Resursa a fost actualizată.", "success");
+      supabaseApi.showMessage(messageBox, "Resursa a fost actualizata.", "success");
     } catch (error) {
       supabaseApi.showMessage(
         messageBox,
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } finally {
       if (saveResourceChangesButton) {
         saveResourceChangesButton.disabled = false;
-        saveResourceChangesButton.textContent = "Salvează modificările";
+        saveResourceChangesButton.textContent = "Salveaza modificarile";
       }
     }
   });
@@ -113,27 +113,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   function renderProfile(user, profile) {
     const displayName = supabaseApi.getDisplayName(user, profile);
     const role = profile?.role || "elev";
-    const specialization = profile?.specialization || "Nespecificată";
-    const classLevel = profile?.class_level || "Nespecificată";
+    const specialization = profile?.specialization || "Nespecificata";
+    const classLevel = profile?.class_level || "Nespecificata";
     const badges = profile?.badges_cpd ?? 0;
     const activityYears = profile?.activity_years ?? 0;
-    const isTeacher = supabaseApi.normalizeRole(role) === "profesor";
+    const normalizedRole = supabaseApi.normalizeRole(role);
+    const canUpload = ["admin", "moderator", "organizator", "profesor"].includes(normalizedRole);
 
-    document.querySelector("#profileAvatar").textContent =
-      supabaseApi.getInitials(displayName);
+    document.querySelector("#profileAvatar").textContent = supabaseApi.getInitials(displayName);
     document.querySelector("#profileName").textContent = displayName;
     document.querySelector("#profileSubtitle").textContent =
-      `${capitalize(role)} · ${isTeacher ? specialization : classLevel} · profil conectat la Supabase`;
+      `${capitalize(role)} · ${canUpload ? specialization : classLevel} · profil conectat la Supabase`;
     document.querySelector("#profileRole").textContent = capitalize(role);
+
     if (profileSecondaryLabel) {
-      profileSecondaryLabel.textContent = isTeacher ? "Specializare" : "Clasa";
+      profileSecondaryLabel.textContent = canUpload ? "Specializare" : "Clasa";
     }
+
     document.querySelector("#profileSpecialization").textContent =
-      isTeacher ? specialization : classLevel;
+      canUpload ? specialization : classLevel;
     document.querySelector("#profileBadges").textContent = String(badges);
     document.querySelector("#profileActivity").textContent = `${activityYears} ani`;
 
-    if (!isTeacher) {
+    if (!canUpload && uploadCta) {
       uploadCta.style.display = "none";
     }
   }
@@ -141,7 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function renderResources(userId) {
     const { data, error } = await supabaseApi.client
       .from("resources")
-      .select("id, title, category, class_level, format, description, download_count, file_path, public_url")
+      .select("id, title, category, class_level, format, license_type, description, download_count, file_path, public_url")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
 
@@ -154,8 +156,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="recommended-resource">
           <i class="fa-solid fa-folder-open"></i>
           <div>
-            <strong>Nu există resurse încă</strong>
-            <small>Prima resursă publicată va apărea aici.</small>
+            <strong>Nu exista resurse inca</strong>
+            <small>Prima resursa publicata va aparea aici.</small>
           </div>
         </div>
       `;
@@ -170,8 +172,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               <i class="fa-solid fa-file-lines owned-resource-icon"></i>
               <div class="owned-resource-copy">
                 <strong>${escapeHtml(resource.title)}</strong>
-                <small>${escapeHtml(resource.category || "Fără categorie")} · ${resource.download_count || 0} descărcări · ${escapeHtml(resource.format || "-")}</small>
-                <p class="mb-0">${escapeHtml(resource.description || "Fără descriere")}</p>
+                <small>${escapeHtml(resource.category || "Fara categorie")} · ${resource.download_count || 0} descarcari · ${escapeHtml(resource.format || "-")} · ${escapeHtml(resource.license_type || "Creative Commons")}</small>
+                <p class="mb-0">${escapeHtml(resource.description || "Fara descriere")}</p>
               </div>
             </div>
             <div class="owned-resource-actions">
@@ -179,10 +181,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Vezi
               </a>
               <button class="btn btn-sm btn-outline-secondary" type="button" data-action="edit-resource" data-resource-id="${resource.id}">
-                Editează
+                Editeaza
               </button>
               <button class="btn btn-sm btn-outline-danger" type="button" data-action="delete-resource" data-resource-id="${resource.id}">
-                Șterge
+                Sterge
               </button>
             </div>
           </div>
@@ -197,9 +199,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.querySelector("#editResourceId").value = resource.id;
     document.querySelector("#editResourceTitle").value = resource.title || "";
-    document.querySelector("#editResourceCategory").value = resource.category || "Informatică";
+    document.querySelector("#editResourceCategory").value = resource.category || "Informatica";
     document.querySelector("#editResourceClassLevel").value = resource.class_level || "";
     document.querySelector("#editResourceFormat").value = resource.format || "PDF";
+    document.querySelector("#editResourceLicense").value =
+      resource.license_type || "Creative Commons";
     document.querySelector("#editResourceDescription").value = resource.description || "";
     editModal?.show();
   }
@@ -208,9 +212,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const resource = currentResources.find(item => item.id === resourceId);
     if (!resource) return;
 
-    const confirmed = window.confirm(
-      `Sigur vrei să ștergi resursa "${resource.title}"?`
-    );
+    const confirmed = window.confirm(`Sigur vrei sa stergi resursa "${resource.title}"?`);
     if (!confirmed) return;
 
     supabaseApi.clearMessage(messageBox);
@@ -220,6 +222,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { error: storageError } = await supabaseApi.client.storage
           .from("resources")
           .remove([resource.file_path]);
+
         if (storageError) throw storageError;
       }
 
@@ -232,11 +235,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (error) throw error;
 
       await renderResources(currentUserId);
-      supabaseApi.showMessage(messageBox, "Resursa a fost ștearsă.", "success");
+      supabaseApi.showMessage(messageBox, "Resursa a fost stearsa.", "success");
     } catch (error) {
       supabaseApi.showMessage(
         messageBox,
-        error.message || "Nu am putut șterge resursa.",
+        error.message || "Nu am putut sterge resursa.",
         "danger"
       );
     }

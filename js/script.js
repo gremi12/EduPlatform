@@ -10,35 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const session = readSupabaseSession();
   const user = session?.user || null;
+  const role = normalizeRole(user?.user_metadata?.role);
 
-  if (user) {
-    document.body.classList.add("is-authenticated");
-  } else {
-    document.body.classList.remove("is-authenticated");
-  }
+  document.body.classList.toggle("is-authenticated", Boolean(user));
 
-  initializeNavbarSessionState(user);
+  initializeNavbarSessionState(user, role);
   initializeFooterSessionState(user);
   initializeGuestVisibility(user);
   normalizeAuthEntryLinks();
-
-  function normalize(text) {
-    return (text || "").toLowerCase().trim();
-  }
-
-  function filterResources() {
-    if (!items.length) return;
-    const q = normalize(search?.value);
-    const selected = normalize(category?.value);
-
-    items.forEach(item => {
-      const text = normalize(item.innerText);
-      const cat = normalize(item.dataset.category);
-      const matchesSearch = !q || text.includes(q);
-      const matchesCategory = !selected || cat === selected;
-      item.style.display = matchesSearch && matchesCategory ? "" : "none";
-    });
-  }
 
   if (search) search.addEventListener("input", filterResources);
   if (category) category.addEventListener("change", filterResources);
@@ -58,35 +37,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function initializeNavbarSessionState(user) {
+  function normalize(text) {
+    return (text || "").toLowerCase().trim();
+  }
+
+  function normalizeRole(value) {
+    return (value || "").toString().trim().toLowerCase();
+  }
+
+  function filterResources() {
+    if (!items.length) return;
+
+    const query = normalize(search?.value);
+    const selectedCategory = normalize(category?.value);
+
+    items.forEach(item => {
+      const text = normalize(item.innerText);
+      const itemCategory = normalize(item.dataset.category);
+      const matchesSearch = !query || text.includes(query);
+      const matchesCategory = !selectedCategory || itemCategory === selectedCategory;
+      item.style.display = matchesSearch && matchesCategory ? "" : "none";
+    });
+  }
+
+  function initializeNavbarSessionState(currentUser, currentRole) {
     const navbarList = document.querySelector(".navbar-nav");
     if (!navbarList) return;
 
     const restrictedRoutes = ["resources", "webinars", "community", "profile"];
 
     restrictedRoutes.forEach(route => {
-      const item = Array.from(navbarList.querySelectorAll("a")).find(
-        link => matchesRoute(link, route)
+      const item = Array.from(navbarList.querySelectorAll("a")).find(link =>
+        matchesRoute(link, route)
       )?.closest("li");
 
-      if (!user) {
+      if (!currentUser) {
         item?.remove();
       }
     });
 
-    if (!user) return;
+    if (!currentUser) return;
 
-    const authItem = Array.from(navbarList.querySelectorAll("a")).find(
-      link => matchesRoute(link, "login") && !link.hash
-    )?.closest("li");
-    const registerItem = Array.from(navbarList.querySelectorAll("a")).find(
-      link => matchesRoute(link, "login") && link.hash === "#register"
-    )?.closest("li");
+    Array.from(navbarList.querySelectorAll("a"))
+      .filter(link => isAuthEntryLink(link) || matchesRoute(link, "login"))
+      .forEach(link => link.closest("li")?.remove());
 
-    authItem?.remove();
-    registerItem?.remove();
-
-    const displayName = getDisplayName(user);
+    const displayName = getDisplayName(currentUser);
+    const dashboardEntry = getDashboardEntry(currentRole);
     const profileItem = document.createElement("li");
     profileItem.className = "nav-item dropdown";
     profileItem.innerHTML = `
@@ -95,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
         <li><a class="dropdown-item" href="profile.html">Profilul meu</a></li>
-        <li><a class="dropdown-item" href="teachers-dashboard.html">Dashboard profesor</a></li>
+        ${dashboardEntry ? `<li><a class="dropdown-item" href="${dashboardEntry.href}">${dashboardEntry.label}</a></li>` : ""}
         <li><hr class="dropdown-divider"></li>
         <li><button class="dropdown-item" type="button" id="logoutNavButton">Deconectare</button></li>
       </ul>
@@ -105,25 +102,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("#logoutNavButton")?.addEventListener("click", async () => {
       await signOutEverywhere();
-      window.location.href = "login.html";
+      window.location.href = "login.html#login";
     });
   }
 
-  function initializeFooterSessionState(user) {
+  function initializeFooterSessionState(currentUser) {
     const footer = document.querySelector(".footer");
     if (!footer) return;
 
-    const platformSection = findFooterSection("Platformă");
-    const featuresSection = findFooterSection("Funcții");
-    const supportSection = findFooterSection("Suport");
+    const platformSection = findFooterSection("platform");
+    const supportSection = findFooterSection("suport");
+    const featuresSection = findFooterSection("funct");
 
     featuresSection?.remove();
-
     if (!platformSection) return;
 
-    if (!user) {
+    if (!currentUser) {
       setFooterLinks(platformSection, [
-        { href: "index.html", label: "Acasă" },
+        { href: "index.html", label: "Acasa" },
         { href: "contact.html", label: "Contact" },
       ]);
 
@@ -131,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setFooterLinks(supportSection, [
           { href: "contact.html", label: "Contact" },
           { href: "contact.html#gdpr", label: "GDPR" },
-          { href: "contact.html#terms", label: "Termeni" },
         ]);
       }
       return;
@@ -140,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setFooterLinks(platformSection, [
       { href: "resources.html", label: "Resurse" },
       { href: "webinars.html", label: "Webinarii" },
-      { href: "community.html", label: "Comunități" },
+      { href: "community.html", label: "Comunitati" },
       { href: "profile.html", label: "Profil" },
     ]);
 
@@ -148,25 +143,24 @@ document.addEventListener("DOMContentLoaded", () => {
       setFooterLinks(supportSection, [
         { href: "contact.html", label: "Contact" },
         { href: "contact.html#gdpr", label: "GDPR" },
-        { href: "contact.html#terms", label: "Termeni" },
       ]);
     }
   }
 
-  function initializeGuestVisibility(user) {
-    if (user) return;
+  function initializeGuestVisibility(currentUser) {
+    if (currentUser) return;
     homeSearchSection?.remove();
     guestRestrictedHeroLinks.forEach(link => link.remove());
   }
 
   function normalizeAuthEntryLinks() {
     document.querySelectorAll("a").forEach(link => {
-      if (matchesRoute(link, "login") && !link.hash) {
-        link.setAttribute("href", "login.html#login");
-      }
+      if (!isAuthEntryLink(link) && !matchesRoute(link, "login")) return;
 
-      if (matchesRoute(link, "login") && link.hash === "#register") {
+      if (link.hash === "#register") {
         link.setAttribute("href", "login.html#register");
+      } else {
+        link.setAttribute("href", "login.html#login");
       }
     });
   }
@@ -189,9 +183,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function findFooterSection(title) {
+  function isAuthEntryLink(link) {
+    const href = (link.getAttribute("href") || "").trim().toLowerCase();
+    return (
+      href === "login.html" ||
+      href === "login.html#login" ||
+      href === "login.html#register" ||
+      href === "/login" ||
+      href === "/login#login" ||
+      href === "/login#register"
+    );
+  }
+
+  function findFooterSection(keyword) {
     const headings = Array.from(document.querySelectorAll(".footer h6"));
-    return headings.find(heading => heading.textContent.trim() === title)?.parentElement || null;
+    return (
+      headings.find(heading =>
+        normalize(heading.textContent)
+          .replaceAll("ă", "a")
+          .replaceAll("â", "a")
+          .replaceAll("î", "i")
+          .replaceAll("ș", "s")
+          .replaceAll("ş", "s")
+          .replaceAll("ț", "t")
+          .replaceAll("ţ", "t")
+          .includes(keyword)
+      )?.parentElement || null
+    );
   }
 
   function setFooterLinks(section, links) {
@@ -207,6 +225,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (heading) {
       section.prepend(heading);
     }
+  }
+
+  function getDashboardEntry(currentRole) {
+    if (currentRole === "admin") {
+      return { href: "admin.html", label: "Dashboard admin" };
+    }
+
+    if (["moderator", "organizator", "profesor"].includes(currentRole)) {
+      return { href: "teachers-dashboard.html", label: "Dashboard profesor" };
+    }
+
+    if (currentRole === "elev") {
+      return { href: "student-dashboard.html", label: "Dashboard elev" };
+    }
+
+    return null;
   }
 
   function readSupabaseSession() {
@@ -228,10 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  function getDisplayName(user) {
+  function getDisplayName(currentUser) {
     return (
-      user?.user_metadata?.full_name ||
-      user?.email?.split("@")[0] ||
+      currentUser?.user_metadata?.full_name ||
+      currentUser?.email?.split("@")[0] ||
       "Contul meu"
     );
   }
@@ -241,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         await window.eduPlatformSupabase.signOut();
       } catch (error) {
-        console.error("Sign out Supabase a eșuat, curăț local sesiunea.", error);
+        console.error("Nu am putut face sign out complet.", error);
       }
     }
 

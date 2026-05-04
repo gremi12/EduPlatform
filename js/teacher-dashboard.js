@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
       messageBox,
-      "Completează întâi valorile din js/supabaseClient.js pentru a folosi upload-ul de resurse.",
+      "Completeaza intai valorile din js/supabaseClient.js pentru a folosi upload-ul de resurse.",
       "warning"
     );
     if (publishButton) publishButton.disabled = true;
@@ -25,13 +25,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     authState = await supabaseApi.requireSession({
-      allowedRoles: ["profesor"],
+      allowedRoles: ["admin", "moderator", "organizator", "profesor"],
     });
 
     if (authState.needsLogin) {
       supabaseApi.showMessage(
         messageBox,
-        'Trebuie să te autentifici înainte de a încărca resurse. <a href="login.html" class="alert-link">Mergi la autentificare</a>.',
+        'Trebuie sa te autentifici inainte de a incarca resurse. <a href="login.html#login" class="alert-link">Mergi la autentificare</a>.',
         "warning"
       );
       if (publishButton) publishButton.disabled = true;
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (authState.unauthorized) {
       supabaseApi.showMessage(
         messageBox,
-        'Contul curent nu are rol de profesor. <a href="profile.html" class="alert-link">Deschide profilul</a>.',
+        'Contul curent nu are un rol care permite publicarea de resurse. <a href="profile.html" class="alert-link">Deschide profilul</a>.',
         "warning"
       );
       if (publishButton) publishButton.disabled = true;
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     supabaseApi.showMessage(
       messageBox,
-      error.message || "Nu am putut încărca modulul de upload.",
+      error.message || "Nu am putut incarca modulul de upload.",
       "danger"
     );
     return;
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!file) {
       supabaseApi.showMessage(
         messageBox,
-        "Selectează un fișier înainte de upload.",
+        "Selecteaza un fisier inainte de upload.",
         "warning"
       );
       return;
@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const category = document.querySelector("#resourceCategory")?.value;
     const classLevel = document.querySelector("#resourceClassLevel")?.value.trim();
     const format = document.querySelector("#resourceFormat")?.value;
+    const licenseType = document.querySelector("#resourceLicense")?.value;
     const description = document.querySelector("#resourceDescription")?.value.trim();
 
     const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
@@ -83,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       publishButton.disabled = true;
-      publishButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Se publică...';
+      publishButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Se publica...';
 
       const { error: uploadError } = await supabaseApi.client.storage
         .from("resources")
@@ -104,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         category,
         class_level: classLevel,
         format,
+        license_type: licenseType,
         description,
         file_path: filePath,
         public_url: publicUrl,
@@ -113,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       form.reset();
       await loadStats(authState.user.id);
-      supabaseApi.showMessage(messageBox, "Resursa a fost publicată cu succes.", "success");
+      supabaseApi.showMessage(messageBox, "Resursa a fost publicata cu succes.", "success");
 
       if (uploadModal) {
         setTimeout(() => {
@@ -130,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } finally {
       publishButton.disabled = false;
       publishButton.innerHTML =
-        '<i class="fa-solid fa-cloud-arrow-up me-2"></i>Publică resursa';
+        '<i class="fa-solid fa-cloud-arrow-up me-2"></i>Publica resursa';
     }
   });
 

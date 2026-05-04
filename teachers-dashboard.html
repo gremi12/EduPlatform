@@ -14,19 +14,17 @@
     <a class="navbar-brand fw-bold fs-4" href="index.html">
       <i class="fa-solid fa-book-open me-2"></i>EduPlatform
     </a>
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
         <li class="nav-item"><a class="nav-link active" href="resources.html">Resurse</a></li>
         <li class="nav-item"><a class="nav-link" href="webinars.html">Webinarii</a></li>
-        <li class="nav-item"><a class="nav-link" href="community.html">Comunități</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html">Comunitati</a></li>
         <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
-        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
-        <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
+        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html#login">Autentificare</a></li>
+        <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Inregistrare</a></li>
       </ul>
     </div>
   </div>
@@ -37,7 +35,7 @@
     <span class="badge rounded-pill custom-badge mb-3">PROFESOR</span>
     <h1 class="page-title">Dashboard Profesor</h1>
     <p class="page-subtitle">
-      Aici profesorul poate încărca resurse educaționale, gestiona materiale și urmări activitatea.
+      Aici profesorul poate incarca resurse educationale, gestiona materiale si urmari activitatea.
     </p>
   </div>
 </header>
@@ -48,18 +46,18 @@
       <div class="col-md-4">
         <div class="info-card">
           <i class="fa-solid fa-file-arrow-up"></i>
-          <h5>Resurse încărcate</h5>
+          <h5>Resurse incarcate</h5>
           <h2 id="totalResources">0</h2>
-          <p>Materiale publicate pe platformă.</p>
+          <p>Materiale publicate pe platforma.</p>
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="info-card">
           <i class="fa-solid fa-download"></i>
-          <h5>Descărcări</h5>
+          <h5>Descarcari</h5>
           <h2 id="totalDownloads">0</h2>
-          <p>Total descărcări de la elevi/profesori.</p>
+          <p>Total descarcari de la elevi si profesori.</p>
         </div>
       </div>
 
@@ -68,30 +66,30 @@
           <i class="fa-solid fa-star"></i>
           <h5>Rating mediu</h5>
           <h2 id="averageRating">0</h2>
-          <p>Evaluări primite la resurse.</p>
+          <p>Evaluari primite la resurse.</p>
         </div>
       </div>
     </div>
 
     <section class="details-card">
-      <h2>Încarcă o resursă nouă</h2>
+      <h2>Incarca o resursa noua</h2>
       <div id="dashboardMessage" class="mb-3"></div>
 
       <form id="resourceUploadForm">
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label" for="resourceTitle">Titlu resursă</label>
-            <input id="resourceTitle" type="text" class="form-control" placeholder="Ex: Lecție Biologie - Fotosinteza" required>
+            <label class="form-label" for="resourceTitle">Titlu resursa</label>
+            <input id="resourceTitle" type="text" class="form-control" placeholder="Ex: Lectie Biologie - Fotosinteza" required>
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="resourceCategory">Categorie</label>
             <select id="resourceCategory" class="form-select" required>
-              <option value="Informatică">Informatică</option>
-              <option value="Științe - Fizică">Științe - Fizică</option>
-              <option value="Științe - Biologie">Științe - Biologie</option>
-              <option value="Limba Română">Limba Română</option>
-              <option value="Matematică">Matematică</option>
+              <option value="Informatica">Informatica</option>
+              <option value="Stiinte - Fizica">Stiinte - Fizica</option>
+              <option value="Stiinte - Biologie">Stiinte - Biologie</option>
+              <option value="Limba Romana">Limba Romana</option>
+              <option value="Matematica">Matematica</option>
             </select>
           </div>
 
@@ -110,19 +108,29 @@
             </select>
           </div>
 
+          <div class="col-md-6">
+            <label class="form-label" for="resourceLicense">Licenta</label>
+            <select id="resourceLicense" class="form-select" required>
+              <option value="Creative Commons">Creative Commons</option>
+              <option value="Open Educational Resource">Open Educational Resource</option>
+              <option value="Utilizare interna scoala">Utilizare interna scoala</option>
+              <option value="Licenta proprie autor">Licenta proprie autor</option>
+            </select>
+          </div>
+
           <div class="col-12">
             <label class="form-label" for="resourceDescription">Descriere</label>
             <textarea id="resourceDescription" class="form-control" rows="4" placeholder="Descrie resursa..." required></textarea>
           </div>
 
           <div class="col-12">
-            <label class="form-label" for="resourceFile">Încarcă fișier</label>
+            <label class="form-label" for="resourceFile">Incarca fisier</label>
             <input id="resourceFile" type="file" class="form-control" required>
           </div>
 
           <div class="col-12">
             <button id="publishResourceButton" type="submit" class="btn btn-primary custom-btn btn-lg">
-              <i class="fa-solid fa-cloud-arrow-up me-2"></i>Publică resursa
+              <i class="fa-solid fa-cloud-arrow-up me-2"></i>Publica resursa
             </button>
           </div>
         </div>

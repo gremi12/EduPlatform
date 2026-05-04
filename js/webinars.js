@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
       pageMessage,
-      "Completează întâi configurarea Supabase pentru a folosi înscrierea la webinarii.",
+      "Completeaza intai configurarea Supabase pentru a folosi inscrierea la webinarii.",
       "warning"
     );
     disableRegistrationButtons();
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (authState.needsLogin) {
       supabaseApi.showMessage(
         pageMessage,
-        'Trebuie să te autentifici înainte de a te înscrie la webinar. <a href="login.html#login" class="alert-link">Autentifică-te</a>.',
+        'Trebuie sa te autentifici inainte de a te inscrie la webinar. <a href="login.html#login" class="alert-link">Autentifica-te</a>.',
         "warning"
       );
       disableRegistrationButtons();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (role !== "profesor") {
       supabaseApi.showMessage(
         pageMessage,
-        "Înscrierea la webinarii este disponibilă doar pentru conturile de profesor.",
+        "Inscrierea la webinarii este disponibila doar pentru conturile de profesor.",
         "warning"
       );
       disableRegistrationButtons();
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     supabaseApi.showMessage(
       pageMessage,
-      error.message || "Nu am putut încărca formularul de înscriere la webinarii.",
+      error.message || "Nu am putut incarca formularul de inscriere la webinarii.",
       "danger"
     );
     disableRegistrationButtons();
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.querySelector("#webinarSlug").value = button.dataset.webinarSlug || "";
       document.querySelector("#webinarTitle").value = button.dataset.webinarTitle || "";
       document.querySelector("#webinarRegisterModalLabel").textContent =
-        `Înscriere: ${button.dataset.webinarTitle || "Webinar"}`;
+        `Inscriere: ${button.dataset.webinarTitle || "Webinar"}`;
       document.querySelector("#webinarRegisterMeta").textContent =
         button.dataset.webinarDate || "";
       supabaseApi.clearMessage(formMessage);
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       supabaseApi.showMessage(
         formMessage,
-        "Înscriere trimisă cu succes. Te vom contacta pe email.",
+        "Inscriere trimisa cu succes. Te vom contacta pe email.",
         "success"
       );
 
@@ -109,21 +109,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       supabaseApi.showMessage(
         formMessage,
-        error.message || "Nu am putut trimite înscrierea la webinar.",
+        error.message || "Nu am putut trimite inscrierea la webinar.",
         "danger"
       );
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = "Trimite înscrierea";
+        submitButton.textContent = "Trimite inscrierea";
       }
     }
   });
 
-  function prefillTeacherData(authState) {
+  function prefillTeacherData(currentAuthState) {
     document.querySelector("#webinarFullName").value =
-      supabaseApi.getDisplayName(authState.user, authState.profile);
-    document.querySelector("#webinarEmail").value = authState.user.email || "";
+      supabaseApi.getDisplayName(currentAuthState.user, currentAuthState.profile);
+    document.querySelector("#webinarEmail").value = currentAuthState.user.email || "";
     document.querySelector("#webinarRole").value = "Profesor";
   }
 

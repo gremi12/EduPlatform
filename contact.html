@@ -1,9 +1,14 @@
-<!DOCTYPE html><html lang="ro"><head>  <meta charset="UTF-8" />
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="./css/style.css">
-<title>Contact / GDPR | EduPlatform</title></head><body>
+  <title>Contact si GDPR | EduPlatform</title>
+</head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar py-3 sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold fs-4" href="index.html">
@@ -14,51 +19,107 @@
     </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link " href="resources.html">Resurse</a></li>
-<li class="nav-item"><a class="nav-link " href="webinars.html">Webinarii</a></li>
-<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
-<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
-        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html">Autentificare</a></li>
-        <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Înregistrare</a></li>
+        <li class="nav-item"><a class="nav-link" href="resources.html">Resurse</a></li>
+        <li class="nav-item"><a class="nav-link" href="webinars.html">Webinarii</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html">Comunitati</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">Profil</a></li>
+        <li class="nav-item"><a class="btn btn-outline-light px-4" href="login.html#login">Autentificare</a></li>
+        <li class="nav-item"><a class="btn btn-primary custom-btn px-4" href="login.html#register">Inregistrare</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<header class="page-header py-5"><div class="container"><span class="badge rounded-pill custom-badge mb-3">CONTACT</span><h1 class="page-title">Contact, GDPR și termeni</h1><p class="page-subtitle">Informații pentru utilizatori, profesori și instituții.</p></div></header>
-<main class="py-5"><div class="container"><div class="row g-4"><div class="col-lg-6"><div class="details-card"><h2>Contact</h2><form><label class="form-label">Nume</label><input class="form-control mb-3"><label class="form-label">Email</label><input class="form-control mb-3"><label class="form-label">Mesaj</label><textarea class="form-control mb-3" rows="5"></textarea><button class="btn btn-primary custom-btn" type="button">Trimite mesaj</button></form></div></div><div class="col-lg-6"><div class="details-card mb-4" id="gdpr"><h2>GDPR</h2><p>Platforma respectă protecția datelor personale, autentificarea securizată, SSL și dreptul la ștergerea datelor.</p></div><div class="details-card" id="terms"><h2>Termeni și condiții</h2><p>Utilizatorii pot încărca doar resurse educaționale proprii sau cu licență permisă.</p></div></div></div></div></main>
+<header class="page-header py-5">
+  <div class="container">
+    <span class="badge rounded-pill custom-badge mb-3">CONTACT</span>
+    <h1 class="page-title">Contact si GDPR</h1>
+    <p class="page-subtitle">Informatii utile pentru utilizatori, profesori si institutii.</p>
+  </div>
+</header>
+
+<main class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="details-card h-100">
+          <h2>Contact</h2>
+          <p class="mb-4">Pentru suport, corectarea datelor sau intrebari despre cont, ne poti lasa un mesaj folosind formularul de mai jos.</p>
+          <form>
+            <label class="form-label" for="contactName">Nume</label>
+            <input id="contactName" class="form-control mb-3" type="text" placeholder="Nume Prenume">
+
+            <label class="form-label" for="contactEmail">Email</label>
+            <input id="contactEmail" class="form-control mb-3" type="email" placeholder="nume@email.com">
+
+            <label class="form-label" for="contactMessage">Mesaj</label>
+            <textarea id="contactMessage" class="form-control mb-3" rows="6" placeholder="Scrie mesajul tau aici"></textarea>
+
+            <button class="btn btn-primary custom-btn" type="button">Trimite mesaj</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="details-card mb-4" id="gdpr">
+          <h2>GDPR</h2>
+          <p>EduPlatform colecteaza doar datele necesare functionarii contului si utilizarii platformei: nume, email, rol, clasa sau specializare si continutul incarcat de utilizator.</p>
+          <ul class="mb-0">
+            <li>Datele sunt folosite pentru autentificare, profil, comunitati si administrarea resurselor educationale.</li>
+            <li>Nu publicam parola si nu afisam date sensibile in mod public.</li>
+            <li>Utilizatorul poate cere corectarea, exportul sau stergerea datelor personale.</li>
+            <li>Continutul incarcat de utilizator ramane asociat contului sau si poate fi sters la cerere, in limitele obligatiilor tehnice sau legale.</li>
+            <li>Pentru solicitari GDPR, foloseste pagina de contact sau adresa de email a administratorului platformei.</li>
+          </ul>
+        </div>
+
+        <div class="details-card">
+          <h2>Drepturile tale</h2>
+          <ul class="mb-0">
+            <li>Drept de acces la datele stocate in contul tau.</li>
+            <li>Drept de rectificare daca anumite informatii sunt incorecte.</li>
+            <li>Drept de stergere a contului si a datelor asociate, acolo unde este posibil.</li>
+            <li>Drept de retragere a consimtamantului pentru comunicarile optionale.</li>
+            <li>Drept de a cere explicatii despre modul in care sunt folosite datele tale.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
 <footer class="footer py-5">
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-4">
         <h4><i class="fa-solid fa-book-open me-2"></i>EduPlatform</h4>
-        <p>Comunitate educațională pentru profesori. Împreună pentru o educație mai bună.</p>
+        <p>Comunitate educationala pentru profesori. Impreuna pentru o educatie mai buna.</p>
       </div>
       <div class="col-lg-2">
-        <h6>Platformă</h6>
+        <h6>Platforma</h6>
         <a href="resources.html">Resurse</a>
         <a href="webinars.html">Webinarii</a>
-        <a href="community.html">Comunități</a>
+        <a href="community.html">Comunitati</a>
         <a href="profile.html">Profil</a>
       </div>
       <div class="col-lg-2">
-        <h6>Funcții</h6>
-        <a href="upload.html">Upload resurse</a>
+        <h6>Functii</h6>
+        <a href="teachers-dashboard.html">Upload resurse</a>
         <a href="admin.html">Admin</a>
-        <a href="resource-details.html">Comentarii</a>
+        <a href="resources.html">Comentarii</a>
       </div>
       <div class="col-lg-2">
         <h6>Suport</h6>
         <a href="contact.html">Contact</a>
         <a href="contact.html#gdpr">GDPR</a>
-        <a href="contact.html#terms">Termeni</a>
-      </div>
       </div>
     </div>
     <hr class="border-light mt-4">
     <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
-</body></html>
+</body>
+</html>

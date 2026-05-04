@@ -41,9 +41,17 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
   }
 
   function getDashboardPath(profile) {
-    return normalizeRole(profile?.role) === "profesor"
-      ? "teachers-dashboard.html"
-      : "profile.html";
+    const role = normalizeRole(profile?.role);
+
+    if (role === "admin") {
+      return "admin.html";
+    }
+
+    if (["moderator", "organizator", "profesor"].includes(role)) {
+      return "teachers-dashboard.html";
+    }
+
+    return role === "elev" ? "student-dashboard.html" : "profile.html";
   }
 
   async function getSession() {
@@ -67,8 +75,8 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
 
   function getDisplayName(user, profile) {
     return (
-      profile?.full_name ||
       user?.user_metadata?.full_name ||
+      profile?.full_name ||
       user?.email?.split("@")[0] ||
       "Utilizator EduPlatform"
     );
@@ -114,10 +122,17 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
       id: user.id,
       full_name: user.user_metadata?.full_name || "",
       role: normalizeRole(user.user_metadata?.role) || "elev",
-      specialization: "Nespecificată",
+      specialization: "Nespecificata",
       badges_cpd: 0,
       activity_years: 0,
     };
+
+    if (user.user_metadata?.full_name) {
+      profile.full_name = user.user_metadata.full_name;
+    }
+    if (user.user_metadata?.role) {
+      profile.role = normalizeRole(user.user_metadata.role);
+    }
 
     const unauthorized =
       allowedRoles.length > 0 &&
