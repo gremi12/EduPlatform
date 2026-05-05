@@ -716,9 +716,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <span>${memberCount} membri</span>
               </div>
               <div class="d-flex gap-2 mt-3 flex-wrap">
-                <button class="btn btn-outline-primary" type="button" data-group-slug="${group.slug}">
-                  Deschide feed-ul
-                </button>
                 <button class="btn ${isJoined ? "btn-outline-secondary" : "btn-outline-success"}" type="button" data-action="join-group" data-group-slug="${group.slug}">
                   ${isJoined ? "Leave" : "Join"}
                 </button>
