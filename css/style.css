@@ -299,6 +299,12 @@ body.is-authenticated .cta-section a[href="/login#register"] {
   .community-post-head, .feedback-card-head { flex-direction: column; }
   .community-chat-message-head, .webinar-lesson-item, .community-member-item { flex-direction: column; }
   .admin-toolbar { align-items: flex-start; }
+  .navbar .navbar-nav > .nav-item:has(> a.btn-outline-light) {
+    margin-bottom: 0.5rem;
+  }
+  .navbar .navbar-nav > .nav-item:has(> a.btn-primary.custom-btn) {
+    margin-bottom: 0.5rem;
+  }
   .navbar .navbar-nav > .nav-item:last-child {
     margin-top: 0.5rem;
   }
