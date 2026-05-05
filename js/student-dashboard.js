@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const authState = await supabaseApi.requireSession({ allowedRoles: ["elev"] });
+    const authState = await supabaseApi.requireSession({ allowedRoles: ["elev", "admin"] });
 
     if (authState.needsLogin) {
       supabaseApi.showMessage(
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const destination = supabaseApi.getDashboardPath(authState.profile);
       supabaseApi.showMessage(
         messageBox,
-        `Contul tau nu este de elev. <a href="${destination}" class="alert-link">Deschide dashboard-ul potrivit</a>.`,
+        `Contul tau nu are acces la dashboard-ul de elev. <a href="${destination}" class="alert-link">Deschide dashboard-ul potrivit</a>.`,
         "warning"
       );
       return;

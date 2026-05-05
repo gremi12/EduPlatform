@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="./css/style.css">
-   <title>EduPlatform | Home</title>
+  <title>EduPlatform | Acasă</title>
 </head>
 <body>
 
@@ -16,25 +16,27 @@
     <a class="navbar-brand fw-bold fs-4" href="index.html">
       <i class="fa-solid fa-book-open me-2"></i>EduPlatform
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Deschide meniul">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link " href="resources.html">Resurse</a></li>
-<li class="nav-item"><a class="nav-link " href="webinars.html">Webinarii</a></li>
-<li class="nav-item"><a class="nav-link " href="community.html">Comunități</a></li>
-<li class="nav-item"><a class="nav-link " href="profile.html">Profil</a></li>
-       <li class="nav-item">
-  <a class="btn btn-outline-light px-3" href="login.html">
-    Autentificare
-  </a>
-</li>
-<li class="nav-item">
-  <a class="btn btn-primary custom-btn px-3" href="login.html#register">
-    Înregistrare
-  </a>
-</li> 
+        <li class="nav-item"><a class="nav-link" href="resources.html" data-i18n="nav.resources">Resurse</a></li>
+        <li class="nav-item"><a class="nav-link" href="webinars.html" data-i18n="nav.webinars">Webinarii</a></li>
+        <li class="nav-item"><a class="nav-link" href="community.html" data-i18n="nav.community">Comunități</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html" data-i18n="nav.profile">Profil</a></li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light px-3" href="login.html#login" data-i18n="nav.login">Autentificare</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-primary custom-btn px-3" href="login.html#register" data-i18n="nav.register">Înregistrare</a>
+        </li>
+        <li class="nav-item">
+          <div class="language-switcher navbar-language-switcher" role="group" aria-label="Schimbă limba">
+            <button type="button" class="language-switcher-button active" data-lang="ro">RO</button>
+            <button type="button" class="language-switcher-button" data-lang="ru">RU</button>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -42,41 +44,65 @@
 
 <header class="hero-section py-5">
   <div class="container">
+    <div class="mb-4">
+      <span class="badge rounded-pill custom-badge" data-i18n="hero.badge">COMUNITATE EDUCAȚIONALĂ</span>
+    </div>
+
     <div class="row align-items-center g-5">
       <div class="col-lg-6">
-        <span class="badge rounded-pill custom-badge mb-3">COMUNITATE EDUCAȚIONALĂ</span>
-        <h1 class="hero-title mb-4">Dezvoltarea platformei „Comunitate educațională pentru profesori”</h1>
+        <h1 class="hero-title mb-4" data-i18n="hero.title">Dezvoltarea platformei „Comunitate educațională pentru profesori”</h1>
         <ul class="list-unstyled hero-list">
-          <li><i class="fa-solid fa-circle-check"></i> Platformă pentru colaborarea profesorilor</li>
-          <li><i class="fa-solid fa-circle-check"></i> Schimb de resurse educaționale</li>
-          <li><i class="fa-solid fa-circle-check"></i> Participare la webinarii</li>
-          <li><i class="fa-solid fa-circle-check"></i> Îmbunătățirea procesului educațional</li>
+          <li><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero.list1">Platformă pentru colaborarea profesorilor și elevilor.</span></li>
+          <li><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero.list2">Schimb rapid de resurse educaționale și materiale utile.</span></li>
+          <li><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero.list3">Participare la webinarii și cursuri video organizate pe platformă.</span></li>
+          <li><i class="fa-solid fa-circle-check"></i> <span data-i18n="hero.list4">Comunități pe discipline și clase pentru lucru structurat.</span></li>
         </ul>
         <div class="d-flex gap-3 mt-4 flex-wrap">
-          <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-4">Creează cont gratuit</a>
-          <a href="resources.html" class="btn btn-outline-primary btn-lg px-4">Explorează resurse</a>
+          <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-4" data-i18n="hero.ctaPrimary">Creează cont gratuit</a>
+          <a href="resources.html" class="btn btn-outline-primary btn-lg px-4" data-i18n="hero.ctaSecondary">Explorează resurse</a>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="hero-mockup shadow-lg">
           <div class="mockup-sidebar">
             <h6>EduPlatform</h6>
-            <p><i class="fa-solid fa-house"></i> Home</p>
-            <p><i class="fa-solid fa-folder"></i> Resurse</p>
-            <p><i class="fa-solid fa-calendar"></i> Webinarii</p>
-            <p><i class="fa-solid fa-users"></i> Comunități</p>
+            <p><i class="fa-solid fa-house"></i> <span data-i18n="mockup.home">Acasă</span></p>
+            <p><i class="fa-solid fa-folder"></i> <span data-i18n="mockup.resources">Resurse</span></p>
+            <p><i class="fa-solid fa-calendar"></i> <span data-i18n="mockup.webinars">Webinarii</span></p>
+            <p><i class="fa-solid fa-users"></i> <span data-i18n="mockup.community">Comunități</span></p>
           </div>
           <div class="mockup-content">
-            <h6>Resurse populare</h6>
+            <h6 data-i18n="mockup.popularResources">Resurse populare</h6>
             <div class="row g-3 mb-4">
-              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-square-root-variable text-primary"></i><strong>Lecție Matematică</strong><small>PDF · 4.8</small></div></div>
-              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-code text-success"></i><strong>Algoritmi</strong><small>PDF · 4.7</small></div></div>
-              <div class="col-4"><div class="mini-card"><i class="fa-solid fa-book text-warning"></i><strong>Plan lecție</strong><small>DOCX · 4.9</small></div></div>
+              <div class="col-4">
+                <div class="mini-card">
+                  <i class="fa-solid fa-square-root-variable text-primary"></i>
+                  <strong data-i18n="mockup.card1Title">Lecție de matematică</strong>
+                  <small data-i18n="mockup.card1Meta">PDF · 4.8</small>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="mini-card">
+                  <i class="fa-solid fa-code text-success"></i>
+                  <strong data-i18n="mockup.card2Title">Algoritmi</strong>
+                  <small data-i18n="mockup.card2Meta">PDF · 4.7</small>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="mini-card">
+                  <i class="fa-solid fa-book text-warning"></i>
+                  <strong data-i18n="mockup.card3Title">Plan de lecție</strong>
+                  <small data-i18n="mockup.card3Meta">DOCX · 4.9</small>
+                </div>
+              </div>
             </div>
-            <h6>Webinarii viitoare</h6>
+            <h6 data-i18n="mockup.nextWebinars">Webinarii viitoare</h6>
             <div class="webinar-box">
-              <div><strong>Strategii de predare eficiente</strong><small>12 Mai 2026 · 17:00</small></div>
-              <a href="webinars.html" class="btn btn-primary btn-sm">Înscrie-te</a>
+              <div>
+                <strong data-i18n="mockup.webinarTitle">Strategii de predare eficiente</strong>
+                <small data-i18n="mockup.webinarDate">12 mai 2026 · 17:00</small>
+              </div>
+              <a href="webinars.html" class="btn btn-primary btn-sm" data-i18n="mockup.webinarButton">Înscrie-te</a>
             </div>
           </div>
         </div>
@@ -85,13 +111,26 @@
 
     <form class="home-search mt-5">
       <div class="row g-3">
-        <div class="col-lg-7"><input class="form-control form-control-lg" type="search" placeholder="Caută resurse: matematică, informatică, limba română..."></div>
+        <div class="col-lg-7">
+          <input
+            class="form-control form-control-lg"
+            type="search"
+            data-i18n-placeholder="search.placeholder"
+            placeholder="Caută resurse: matematică, informatică, limba română..."
+          >
+        </div>
         <div class="col-lg-3">
           <select class="form-select form-select-lg">
-            <option>Toate categoriile</option><option>Informatică</option><option>Științe</option><option>Limba Română</option><option>Matematică</option>
+            <option data-i18n="search.optionAll">Toate categoriile</option>
+            <option data-i18n="search.optionInfo">Informatică</option>
+            <option data-i18n="search.optionScience">Științe</option>
+            <option data-i18n="search.optionRomanian">Limba română</option>
+            <option data-i18n="search.optionMath">Matematică</option>
           </select>
         </div>
-        <div class="col-lg-2"><a href="resources.html" class="btn btn-primary custom-btn btn-lg w-100">Caută</a></div>
+        <div class="col-lg-2">
+          <a href="resources.html" class="btn btn-primary custom-btn btn-lg w-100" data-i18n="search.button">Caută</a>
+        </div>
       </div>
     </form>
   </div>
@@ -100,76 +139,215 @@
 <main class="py-5">
   <div class="container">
     <div class="row g-4 mb-4">
-      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-bullseye"></i><h5>Scopul platformei</h5><ul><li>Platformă colaborativă</li><li>Acces la resurse educaționale</li><li>Îmbunătățirea educației</li></ul></div></div>
-      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-users"></i><h5>Public țintă</h5><ul><li>Profesori</li><li>Educatori</li><li>Metodiști</li><li>Organizatori cursuri</li></ul></div></div>
-      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-user-shield"></i><h5>Roluri în sistem</h5><ul><li>Vizitator</li><li>Profesor</li><li>Moderator</li><li>Organizator webinar</li><li>Administrator</li></ul></div></div>
-      <div class="col-md-6 col-lg-3"><div class="info-card"><i class="fa-solid fa-sitemap"></i><h5>Structura platformei</h5><ul><li>Pagina principală</li><li>Catalog resurse</li><li>Pagina resursă</li><li>Webinarii</li><li>Profil utilizator</li></ul></div></div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-card">
+          <i class="fa-solid fa-bullseye"></i>
+          <h5 data-i18n="cards.goal.title">Scopul platformei</h5>
+          <ul>
+            <li data-i18n="cards.goal.item1">Spațiu colaborativ pentru profesori și elevi.</li>
+            <li data-i18n="cards.goal.item2">Acces ușor la resurse educaționale.</li>
+            <li data-i18n="cards.goal.item3">Organizare mai bună a activităților școlare.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-card">
+          <i class="fa-solid fa-users"></i>
+          <h5 data-i18n="cards.audience.title">Public țintă</h5>
+          <ul>
+            <li data-i18n="cards.audience.item1">Profesori</li>
+            <li data-i18n="cards.audience.item2">Elevi</li>
+            <li data-i18n="cards.audience.item3">Moderatori</li>
+            <li data-i18n="cards.audience.item4">Organizatori de cursuri</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-card">
+          <i class="fa-solid fa-user-shield"></i>
+          <h5 data-i18n="cards.roles.title">Roluri în sistem</h5>
+          <ul>
+            <li data-i18n="cards.roles.item1">Vizitator</li>
+            <li data-i18n="cards.roles.item2">Elev</li>
+            <li data-i18n="cards.roles.item3">Profesor</li>
+            <li data-i18n="cards.roles.item4">Moderator</li>
+            <li data-i18n="cards.roles.item5">Administrator</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-card">
+          <i class="fa-solid fa-sitemap"></i>
+          <h5 data-i18n="cards.structure.title">Structura platformei</h5>
+          <ul>
+            <li data-i18n="cards.structure.item1">Pagina principală</li>
+            <li data-i18n="cards.structure.item2">Catalog de resurse</li>
+            <li data-i18n="cards.structure.item3">Comunități pe clase și discipline</li>
+            <li data-i18n="cards.structure.item4">Webinarii și cursuri video</li>
+            <li data-i18n="cards.structure.item5">Profil și dashboard personal</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="row g-4 mb-4">
-      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-gear"></i><h5>Funcționalități principale</h5><ul><li>Înregistrare utilizatori</li><li>Upload / download resurse</li><li>Căutare și filtre</li><li>Comentarii și evaluări</li><li>Participare la webinarii</li></ul></div></div>
-      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-laptop-code"></i><h5>Beneficii pentru utilizatori</h5><ul><li>Platformă ușor de folosit</li><li>Învățare colaborativă</li><li>Conținut actualizat constant</li></ul></div></div>
-      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-lock"></i><h5>Securitate</h5><ul><li>Protecția datelor personale</li><li>Autentificare securizată</li><li>SSL / criptare</li><li>Respectarea GDPR</li></ul></div></div>
+      <div class="col-lg-4">
+        <div class="info-card h-100">
+          <i class="fa-solid fa-gear"></i>
+          <h5 data-i18n="cards.features.title">Funcționalități principale</h5>
+          <ul>
+            <li data-i18n="cards.features.item1">Înregistrare și autentificare pe roluri.</li>
+            <li data-i18n="cards.features.item2">Upload, editare și ștergere de resurse.</li>
+            <li data-i18n="cards.features.item3">Căutare și filtre rapide în catalog.</li>
+            <li data-i18n="cards.features.item4">Comunități, teme de discuție și chat.</li>
+            <li data-i18n="cards.features.item5">Webinarii cu acces la lecții video.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="info-card h-100">
+          <i class="fa-solid fa-laptop-code"></i>
+          <h5 data-i18n="cards.benefits.title">Beneficii pentru utilizatori</h5>
+          <ul>
+            <li data-i18n="cards.benefits.item1">Interfață clară și ușor de folosit.</li>
+            <li data-i18n="cards.benefits.item2">Colaborare reală între profesori și elevi.</li>
+            <li data-i18n="cards.benefits.item3">Conținut actualizat și organizat pe nevoi reale.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="info-card h-100">
+          <i class="fa-solid fa-lock"></i>
+          <h5 data-i18n="cards.security.title">Securitate</h5>
+          <ul>
+            <li data-i18n="cards.security.item1">Protecția datelor personale și a conturilor.</li>
+            <li data-i18n="cards.security.item2">Autentificare securizată prin Supabase.</li>
+            <li data-i18n="cards.security.item3">Acces diferențiat în funcție de rol.</li>
+            <li data-i18n="cards.security.item4">Respectarea cerințelor GDPR.</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <!-- 
-    
-    1. „”
-Acces rapid la resurse educaționale
-Platformă ușor de folosit
-Învățare colaborativă
-Conținut actualizat constant-->
-
     <div class="row g-4 mb-5">
-      <div class="col-lg-4"><div class="info-card h-100"><i class="fa-solid fa-wallet"></i><h5>Avantaje</h5><ul><li>Acces gratuit</li><li>Economisești timp în căutarea materialelor</li><li>Colaborezi cu alți profesori</li><li>Înveți mai eficient</li></ul></div></div>
-      <div class="col-lg-8"><div class="info-card h-100"><h5 class="mb-4">Cum funcționează?</h5><div class="row text-center g-4">
-        <div class="col-md-3"><i class="fa-solid fa-user-plus step-icon"></i><h6>Creează cont</h6><p>Înscriere gratuită.</p></div>
-        <div class="col-md-3"><i class="fa-solid fa-cloud-arrow-up step-icon"></i><h6>Încarcă resurse</h6><p>Distribuie materiale.</p></div>
-        <div class="col-md-3"><i class="fa-solid fa-comments step-icon"></i><h6>Colaborează</h6><p>Comentează și evaluează.</p></div>
-        <div class="col-md-3"><i class="fa-solid fa-calendar-days step-icon"></i><h6>Participă</h6><p>Înscrie-te la webinarii.</p></div>
-      </div></div></div>
+      <div class="col-lg-4">
+        <div class="info-card h-100">
+          <i class="fa-solid fa-wallet"></i>
+          <h5 data-i18n="cards.advantages.title">Avantaje</h5>
+          <ul>
+            <li data-i18n="cards.advantages.item1">Acces gratuit pentru utilizatori.</li>
+            <li data-i18n="cards.advantages.item2">Economisești timp când cauți materiale.</li>
+            <li data-i18n="cards.advantages.item3">Lucrezi în comunități potrivite clasei tale.</li>
+            <li data-i18n="cards.advantages.item4">Ai cursuri video și webinarii într-un singur loc.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="info-card h-100">
+          <h5 class="mb-4" data-i18n="how.title">Cum funcționează?</h5>
+          <div class="row text-center g-4">
+            <div class="col-md-3">
+              <i class="fa-solid fa-user-plus step-icon"></i>
+              <h6 data-i18n="how.step1.title">Creează cont</h6>
+              <p data-i18n="how.step1.text">Alege rolul și completează profilul.</p>
+            </div>
+            <div class="col-md-3">
+              <i class="fa-solid fa-cloud-arrow-up step-icon"></i>
+              <h6 data-i18n="how.step2.title">Publică sau accesează</h6>
+              <p data-i18n="how.step2.text">Profesorii urcă resurse, elevii le găsesc rapid.</p>
+            </div>
+            <div class="col-md-3">
+              <i class="fa-solid fa-comments step-icon"></i>
+              <h6 data-i18n="how.step3.title">Intră în comunități</h6>
+              <p data-i18n="how.step3.text">Participă la teme, chat și discuții pe clase.</p>
+            </div>
+            <div class="col-md-3">
+              <i class="fa-solid fa-calendar-days step-icon"></i>
+              <h6 data-i18n="how.step4.title">Învață continuu</h6>
+              <p data-i18n="how.step4.text">Înscrie-te la webinarii și urmărește cursuri video.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <section class="cta-section p-4 p-lg-5 rounded-4 d-flex flex-column flex-lg-row justify-content-between align-items-center gap-3">
-      <div><h2>Alătură-te comunității noastre!</h2><p class="mb-0">Împreună pentru o educație mai bună.</p></div>
-      <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-5">Creează cont gratuit</a>
+      <div>
+        <h2 data-i18n="cta.title">Alătură-te comunității noastre!</h2>
+        <p class="mb-0" data-i18n="cta.text">Construim împreună o platformă educațională mai utilă pentru profesori și elevi.</p>
+      </div>
+      <a href="login.html#register" class="btn btn-primary custom-btn btn-lg px-5" data-i18n="cta.button">Creează cont gratuit</a>
     </section>
   </div>
 </main>
+
+<div class="platform-chatbot" id="platformChatbot">
+  <button type="button" class="platform-chatbot-toggle" id="chatbotToggleButton" aria-label="Deschide asistentul platformei">
+    <i class="fa-solid fa-comments"></i>
+    <span data-i18n="chat.toggle">Asistent</span>
+  </button>
+
+  <div class="platform-chatbot-panel d-none" id="chatbotPanel">
+    <div class="platform-chatbot-header">
+      <div>
+        <strong data-i18n="chat.header">Asistent EduPlatform</strong>
+        <small data-i18n="chat.subheader">Răspunde la întrebări despre platformă</small>
+      </div>
+      <button type="button" class="platform-chatbot-close" id="chatbotCloseButton" aria-label="Închide chatbot">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="platform-chatbot-messages" id="chatbotMessages"></div>
+
+    <div class="platform-chatbot-suggestions" id="chatbotSuggestions">
+      <button type="button" class="platform-chatbot-chip" data-chat-intent="createAccount" data-i18n="chat.suggestion1">Cum creez cont?</button>
+      <button type="button" class="platform-chatbot-chip" data-chat-intent="resources" data-i18n="chat.suggestion2">Ce pot face pe platformă?</button>
+      <button type="button" class="platform-chatbot-chip" data-chat-intent="webinars" data-i18n="chat.suggestion3">Cum mă înscriu la webinarii?</button>
+    </div>
+
+    <form class="platform-chatbot-form" id="chatbotForm">
+      <input
+        type="text"
+        id="chatbotInput"
+        class="form-control"
+        data-i18n-placeholder="chat.placeholder"
+        placeholder="Scrie întrebarea ta despre platformă..."
+      >
+      <button type="submit" class="btn btn-primary custom-btn" data-i18n="chat.send">Trimite</button>
+    </form>
+  </div>
+</div>
 
 <footer class="footer py-5">
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-4">
         <h4><i class="fa-solid fa-book-open me-2"></i>EduPlatform</h4>
-        <p>Comunitate educațională pentru profesori. Împreună pentru o educație mai bună.</p>
+        <p data-i18n="footer.about">Comunitate educațională pentru profesori și elevi. Împreună pentru o educație mai bună.</p>
       </div>
-      <div class="col-lg-2">
-        <h6>Platformă</h6>
-        <a href="resources.html">Resurse</a>
-        <a href="webinars.html">Webinarii</a>
-        <a href="community.html">Comunități</a>
-        <a href="profile.html">Profil</a>
+      <div class="col-lg-3">
+        <h6 data-i18n="footer.platform">Platformă</h6>
+        <a href="resources.html" data-i18n="footer.resources">Resurse</a>
+        <a href="webinars.html" data-i18n="footer.webinars">Webinarii</a>
+        <a href="community.html" data-i18n="footer.community">Comunități</a>
+        <a href="profile.html" data-i18n="footer.profile">Profil</a>
       </div>
-      <div class="col-lg-2">
-        <h6>Funcții</h6>
-        <a href="upload.html">Upload resurse</a>
-        </div>
-      <div class="col-lg-2">
-        <h6>Suport</h6>
-        <a href="contact.html">Contact</a>
-        <a href="contact.html#gdpr">GDPR</a>
-      </div>
-      
+      <div class="col-lg-3">
+        <h6 data-i18n="footer.support">Suport</h6>
+        <a href="contact.html" data-i18n="footer.contact">Contact</a>
+        <a href="contact.html#gdpr" data-i18n="footer.gdpr">GDPR</a>
       </div>
     </div>
     <hr class="border-light mt-4">
-    <p class="mb-0 small text-center">© 2026 EduPlatform. Toate drepturile rezervate.</p>
+    <p class="mb-0 small text-center" data-i18n="footer.copy">© 2026 EduPlatform. Toate drepturile rezervate.</p>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/i18n-global.js"></script>
+<script src="./js/index-page.js"></script>
 
 </body>
 </html>
-

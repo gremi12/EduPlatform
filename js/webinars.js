@@ -7,9 +7,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const modalElement = document.querySelector("#webinarRegisterModal");
   const modal = modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
   const webinarsGrid = document.querySelector("#webinarsGrid");
+  const webinarsDots = document.querySelector("#webinarsDots");
+  const webinarsPrevButton = document.querySelector("#webinarsPrevButton");
+  const webinarsNextButton = document.querySelector("#webinarsNextButton");
   const librarySection = document.querySelector("#webinarLibrarySection");
   const libraryMeta = document.querySelector("#webinarLibraryMeta");
   const libraryGrid = document.querySelector("#webinarLibraryGrid");
+  const recommendedMeta = document.querySelector("#webinarRecommendedMeta");
+  const recommendedSlider = document.querySelector("#webinarRecommendedSlider");
   const lessonModalElement = document.querySelector("#webinarLessonModal");
   const lessonModal = lessonModalElement ? bootstrap.Modal.getOrCreateInstance(lessonModalElement) : null;
   const lessonFrame = document.querySelector("#webinarLessonFrame");
@@ -31,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let courses = [];
   let lessons = [];
   let currentLesson = null;
+  let resizeTimeoutId = null;
 
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
@@ -40,8 +46,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     renderCatalogMessage("Completeaza configurarea Supabase pentru a vedea webinariile.");
     renderLibraryState("Biblioteca video devine disponibila dupa configurarea Supabase.");
+    renderRecommendedState("Recomandarile devin disponibile dupa configurarea Supabase.");
     return;
   }
+
+  window.addEventListener("resize", () => {
+    window.clearTimeout(resizeTimeoutId);
+    resizeTimeoutId = window.setTimeout(() => {
+      renderCatalog();
+      renderRecommendedWebinars();
+    }, 120);
+  });
 
   try {
     authState = await supabaseApi.requireSession();
@@ -55,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
       renderCatalogMessage("Autentifica-te pentru a vedea cursurile disponibile.");
       renderLibraryState("Autentifica-te pentru a vedea cursurile video disponibile.");
+      renderRecommendedWebinars();
       return;
     }
 
@@ -76,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     renderCatalogMessage("Nu am putut incarca webinariile momentan.");
     renderLibraryState("Nu am putut incarca biblioteca video momentan.");
+    renderRecommendedState("Nu am putut incarca recomandarile momentan.");
     return;
   }
 
@@ -228,6 +245,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     renderCatalog();
     renderUdemyLibrary();
+    renderRecommendedWebinars();
   }
 
   async function loadCourseCatalog() {
@@ -278,7 +296,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    webinarsGrid.innerHTML = courses
+    const cardsMarkup = courses
       .map(course => {
         const alreadyRegistered = registeredWebinars.has(course.slug);
         const canRegister = role === "profesor";
@@ -289,8 +307,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             : "Inscrie-te";
 
         return `
-          <div class="col-md-6 col-lg-4">
-            <div class="info-card h-100 webinar-card">
+            <article class="info-card h-100 webinar-card">
               <i class="fa-solid ${escapeHtml(getCourseIcon(course.slug))}"></i>
               <h5>${escapeHtml(course.title)}</h5>
               <p>${escapeHtml(course.scheduled_label)}${course.presenter_name ? ` · ${escapeHtml(course.presenter_name)}` : ""}</p>
@@ -306,11 +323,20 @@ document.addEventListener("DOMContentLoaded", async () => {
               >
                 ${buttonLabel}
               </button>
-            </div>
-          </div>
+            </article>
         `;
-      })
-      .join("");
+      });
+
+    renderCarousel(
+      webinarsGrid,
+      webinarsDots,
+      cardsMarkup,
+      "Nu exista cursuri publicate momentan.",
+      {
+        prevButton: webinarsPrevButton,
+        nextButton: webinarsNextButton,
+      }
+    );
   }
 
   function renderUdemyLibrary() {
@@ -397,6 +423,60 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
       })
       .join("");
+  }
+
+  function renderRecommendedWebinars() {
+    if (!recommendedSlider || !recommendedMeta) return;
+
+    if (!courses.length) {
+      renderRecommendedState("Nu exista recomandari suplimentare momentan.");
+      return;
+    }
+
+    const recommendedCourses = courses.slice(0, 6);
+    recommendedMeta.textContent = `${recommendedCourses.length} recomandari`;
+    const cardsMarkup = recommendedCourses
+      .map(course => {
+        const alreadyRegistered = registeredWebinars.has(course.slug);
+        const canRegister = role === "profesor" && !alreadyRegistered;
+        const ctaLabel = role !== "profesor"
+          ? "Disponibil pentru profesori"
+          : alreadyRegistered
+            ? "Deja inscris"
+            : "Inscrie-te";
+
+        return `
+          <article class="webinar-recommendation-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <i class="fa-solid ${escapeHtml(getCourseIcon(course.slug))} fs-3 text-primary"></i>
+              <span class="community-member-badge">Recomandat</span>
+            </div>
+            <h5>${escapeHtml(course.title)}</h5>
+            <div class="webinar-recommendation-card-meta">
+              ${escapeHtml(course.scheduled_label)}${course.presenter_name ? ` · ${escapeHtml(course.presenter_name)}` : ""}
+            </div>
+            <p class="mb-4">${escapeHtml(course.subtitle || course.summary || "Webinar recomandat pentru dezvoltarea profesionala a profesorilor.")}</p>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              data-register-webinar="true"
+              data-webinar-slug="${escapeHtml(course.slug)}"
+              data-webinar-title="${escapeHtml(course.title)}"
+              data-webinar-date="${escapeHtml(course.scheduled_label)}"
+              ${canRegister ? "" : "disabled"}
+            >
+              ${ctaLabel}
+            </button>
+          </article>
+        `;
+      });
+
+    renderCarousel(
+      recommendedSlider,
+      null,
+      cardsMarkup,
+      "Nu exista recomandari suplimentare momentan."
+    );
   }
 
   async function openLessonModal(lesson) {
@@ -497,14 +577,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function renderCatalogMessage(message) {
-    if (!webinarsGrid) return;
-    webinarsGrid.innerHTML = `
-      <div class="col-12">
-        <div class="info-card text-center text-muted">
-          ${escapeHtml(message)}
-        </div>
-      </div>
-    `;
+    renderCarousel(
+      webinarsGrid,
+      webinarsDots,
+      [
+        `
+          <div class="info-card text-center text-muted">
+            ${escapeHtml(message)}
+          </div>
+        `,
+      ],
+      message,
+      {
+        prevButton: webinarsPrevButton,
+        nextButton: webinarsNextButton,
+      }
+    );
   }
 
   function renderLibraryState(message) {
@@ -518,6 +606,141 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       </div>
     `;
+  }
+
+  function renderRecommendedState(message) {
+    if (!recommendedSlider || !recommendedMeta) return;
+    recommendedMeta.textContent = "0 recomandari";
+    renderCarousel(
+      recommendedSlider,
+      null,
+      [
+        `
+          <article class="webinar-recommendation-card text-center text-muted">
+            ${escapeHtml(message)}
+          </article>
+        `,
+      ],
+      message
+    );
+  }
+
+  function renderCarousel(trackElement, dotsElement, cardsMarkup, emptyMessage, controls = null) {
+    if (!trackElement) return;
+
+    const normalizedCards = Array.isArray(cardsMarkup)
+      ? cardsMarkup
+      : typeof cardsMarkup === "string" && cardsMarkup.trim()
+        ? [cardsMarkup]
+        : [];
+
+    if (!normalizedCards.length) {
+      trackElement.innerHTML = `
+        <article class="webinar-carousel-slide">
+          <div class="info-card text-center text-muted">
+            ${escapeHtml(emptyMessage)}
+          </div>
+        </article>
+      `;
+      if (dotsElement) {
+        dotsElement.innerHTML = "";
+      }
+      updateCarouselControls(controls, 0, 1);
+      return;
+    }
+
+    const cardsPerSlide = getCardsPerSlide();
+    const slides = chunkArray(normalizedCards, cardsPerSlide);
+
+    trackElement.style.transform = "translateX(0)";
+    trackElement.innerHTML = slides
+      .map(
+        slideCards => `
+          <article class="webinar-carousel-slide">
+            <div class="webinar-carousel-card-grid">
+              ${slideCards.join("")}
+            </div>
+          </article>
+        `
+      )
+      .join("");
+
+    if (!dotsElement) {
+      updateCarouselControls(controls, 0, slides.length, trackElement);
+      return;
+    }
+
+    dotsElement.innerHTML = slides
+      .map(
+        (_, index) => `
+          <button
+            type="button"
+            class="webinar-carousel-dot ${index === 0 ? "is-active" : ""}"
+            data-carousel-index="${index}"
+            aria-label="Slide webinar ${index + 1}"
+          ></button>
+        `
+      )
+      .join("");
+
+    updateCarouselControls(controls, 0, slides.length, trackElement, dotsElement);
+
+    dotsElement.querySelectorAll("[data-carousel-index]").forEach(button => {
+      button.addEventListener("click", () => {
+        const slideIndex = Number(button.dataset.carouselIndex || 0);
+        moveCarouselTo(trackElement, dotsElement, controls, slideIndex, slides.length);
+      });
+    });
+  }
+
+  function updateCarouselControls(controls, activeIndex, slideCount, trackElement = null, dotsElement = null) {
+    if (!controls?.prevButton || !controls?.nextButton) return;
+
+    const { prevButton, nextButton } = controls;
+    const hasMultipleSlides = slideCount > 1;
+
+    prevButton.classList.toggle("d-none", !hasMultipleSlides);
+    nextButton.classList.toggle("d-none", !hasMultipleSlides);
+    prevButton.disabled = !hasMultipleSlides || activeIndex <= 0;
+    nextButton.disabled = !hasMultipleSlides || activeIndex >= slideCount - 1;
+
+    if (!hasMultipleSlides || !trackElement) return;
+
+    prevButton.onclick = () => {
+      const currentIndex = Number(trackElement.dataset.activeSlide || 0);
+      moveCarouselTo(trackElement, dotsElement, controls, currentIndex - 1, slideCount);
+    };
+
+    nextButton.onclick = () => {
+      const currentIndex = Number(trackElement.dataset.activeSlide || 0);
+      moveCarouselTo(trackElement, dotsElement, controls, currentIndex + 1, slideCount);
+    };
+  }
+
+  function moveCarouselTo(trackElement, dotsElement, controls, slideIndex, slideCount) {
+    const safeIndex = Math.max(0, Math.min(slideIndex, slideCount - 1));
+    trackElement.dataset.activeSlide = String(safeIndex);
+    trackElement.style.transform = `translateX(-${safeIndex * 100}%)`;
+
+    dotsElement?.querySelectorAll(".webinar-carousel-dot").forEach((dot, dotIndex) => {
+      dot.classList.toggle("is-active", dotIndex === safeIndex);
+    });
+
+    updateCarouselControls(controls, safeIndex, slideCount, trackElement, dotsElement);
+  }
+
+  function getCardsPerSlide() {
+    if (window.innerWidth < 769) return 1;
+    if (window.innerWidth < 1200) return 2;
+    return 3;
+  }
+
+  function chunkArray(items, chunkSize) {
+    const result = [];
+    for (let index = 0; index < items.length; index += chunkSize) {
+      result.push(items.slice(index, index + chunkSize));
+    }
+    return result;
   }
 
   async function createSignedVideoUrl(path) {

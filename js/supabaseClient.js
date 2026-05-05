@@ -134,6 +134,8 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
       profile.role = normalizeRole(user.user_metadata.role);
     }
 
+    syncSessionSnapshot(session, profile);
+
     if (profile.account_status && profile.account_status !== "active") {
       await signOut();
       const label =
@@ -160,6 +162,48 @@ window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
   async function signOut() {
     if (!client) return;
     await client.auth.signOut();
+  }
+
+  function syncSessionSnapshot(session, profile) {
+    try {
+      const sessionUser = session?.user;
+      if (!sessionUser || !profile) return;
+
+      const nextRole = normalizeRole(profile.role) || normalizeRole(sessionUser.user_metadata?.role);
+      const nextFullName =
+        profile.full_name ||
+        sessionUser.user_metadata?.full_name ||
+        sessionUser.email?.split("@")[0] ||
+        "";
+
+      sessionUser.user_metadata = {
+        ...(sessionUser.user_metadata || {}),
+        role: nextRole,
+        full_name: nextFullName,
+      };
+
+      const sessionKeys = Object.keys(window.localStorage).filter(key =>
+        key.includes("-auth-token")
+      );
+
+      sessionKeys.forEach(key => {
+        const rawValue = window.localStorage.getItem(key);
+        if (!rawValue) return;
+
+        const parsed = JSON.parse(rawValue);
+        if (!parsed?.user || parsed.user.id !== sessionUser.id) return;
+
+        parsed.user.user_metadata = {
+          ...(parsed.user.user_metadata || {}),
+          role: nextRole,
+          full_name: nextFullName,
+        };
+
+        window.localStorage.setItem(key, JSON.stringify(parsed));
+      });
+    } catch (error) {
+      console.error("Nu am putut sincroniza rolul din sesiune cu profilul.", error);
+    }
   }
 
   window.eduPlatformSupabase = {

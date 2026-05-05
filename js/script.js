@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const search = document.querySelector("#resourceSearch");
   const category = document.querySelector("#categoryFilter");
+  const classFilter = document.querySelector("#classFilter");
   const reset = document.querySelector("#resetFilters");
   const items = document.querySelectorAll(".resource-item");
   const categoryCards = document.querySelectorAll("[data-filter-card]");
+  const resourceClassSelects = document.querySelectorAll(".resource-class-select");
+  const resourceOpenButtons = document.querySelectorAll(".resource-open-button");
   const homeSearchSection = document.querySelector(".home-search");
   const guestRestrictedHeroLinks = document.querySelectorAll(
     '.hero-section a[href="resources.html"], .hero-section a[href="/resources"], .hero-section a[href="webinars.html"], .hero-section a[href="/webinars"]'
@@ -21,10 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (search) search.addEventListener("input", filterResources);
   if (category) category.addEventListener("change", filterResources);
+  if (classFilter) classFilter.addEventListener("change", filterResources);
   if (reset) {
     reset.addEventListener("click", () => {
       if (search) search.value = "";
       if (category) category.value = "";
+      if (classFilter) classFilter.value = "";
       filterResources();
     });
   }
@@ -34,6 +39,36 @@ document.addEventListener("DOMContentLoaded", () => {
       if (category) category.value = card.dataset.filterCard;
       filterResources();
       document.querySelector("#resourcesGrid")?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  resourceClassSelects.forEach(select => {
+    select.addEventListener("change", () => {
+      const resourceItem = select.closest(".resource-item");
+      const classLabel = resourceItem?.querySelector("[data-resource-class-label]");
+      const selectedClass = select.options[select.selectedIndex]?.textContent?.trim() || "";
+
+      if (resourceItem) {
+        resourceItem.dataset.classLevel = normalize(selectedClass);
+      }
+
+      if (classLabel) {
+        classLabel.textContent = selectedClass;
+      }
+
+      filterResources();
+    });
+  });
+
+  items.forEach(initializeResourceCardSummary);
+  resourceOpenButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const resourceItem = button.closest(".resource-item");
+      if (!resourceItem) return;
+      const summary = getResourceSummary(resourceItem);
+      summary.installs += 1;
+      saveResourceSummary(resourceItem, summary);
+      renderResourceSummary(resourceItem, summary);
     });
   });
 
@@ -50,14 +85,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const query = normalize(search?.value);
     const selectedCategory = normalize(category?.value);
+    const selectedClass = normalize(classFilter?.value);
 
     items.forEach(item => {
       const text = normalize(item.innerText);
       const itemCategory = normalize(item.dataset.category);
+      const itemClassLevel = normalize(item.dataset.classLevel);
       const matchesSearch = !query || text.includes(query);
       const matchesCategory = !selectedCategory || itemCategory === selectedCategory;
-      item.style.display = matchesSearch && matchesCategory ? "" : "none";
+      const matchesClass = !selectedClass || itemClassLevel === selectedClass;
+      item.style.display = matchesSearch && matchesCategory && matchesClass ? "" : "none";
     });
+  }
+
+  function initializeResourceCardSummary(resourceItem) {
+    renderResourceSummary(resourceItem, getResourceSummary(resourceItem));
+
+    resourceItem.querySelectorAll(".resource-card-star").forEach(button => {
+      button.addEventListener("click", () => {
+        const rating = Number(button.dataset.resourceRate || 0);
+        const currentSummary = getResourceSummary(resourceItem);
+        const nextSummary = {
+          ...currentSummary,
+          rating,
+        };
+        saveResourceSummary(resourceItem, nextSummary);
+        renderResourceSummary(resourceItem, nextSummary);
+      });
+    });
+  }
+
+  function renderResourceSummary(resourceItem, summary) {
+    const ratingDisplay = resourceItem.querySelector("[data-resource-rating-display]");
+    const installDisplay = resourceItem.querySelector("[data-resource-install-display]");
+    const language = window.eduPlatformI18n?.getLanguage?.() || "ro";
+    const ratingLabel = language === "ru" ? "звезды" : "stele";
+    const installLabel = language === "ru" ? "установки" : "instalari";
+
+    if (ratingDisplay) {
+      ratingDisplay.innerHTML = `<i class="fa-solid fa-star"></i> ${summary.rating} ${ratingLabel}`;
+    }
+
+    if (installDisplay) {
+      installDisplay.innerHTML = `<i class="fa-solid fa-download"></i> ${summary.installs} ${installLabel}`;
+    }
+
+    resourceItem.querySelectorAll(".resource-card-star").forEach(button => {
+      const value = Number(button.dataset.resourceRate || 0);
+      button.classList.toggle("is-active", value <= summary.rating);
+    });
+  }
+
+  function getResourceSummary(resourceItem) {
+    const slug = resourceItem.dataset.resourceSlug;
+    const defaultSummary = { rating: 0, installs: 0 };
+    if (!slug) return defaultSummary;
+
+    try {
+      const rawValue = window.localStorage.getItem(`eduplatform-resource-card:${slug}`);
+      if (!rawValue) return defaultSummary;
+      const parsed = JSON.parse(rawValue);
+      return {
+        rating: Number(parsed?.rating || 0),
+        installs: Number(parsed?.installs || 0),
+      };
+    } catch (error) {
+      console.error("Nu am putut citi sumarul resursei din localStorage.", error);
+      return defaultSummary;
+    }
+  }
+
+  function saveResourceSummary(resourceItem, summary) {
+    const slug = resourceItem.dataset.resourceSlug;
+    if (!slug) return;
+
+    window.localStorage.setItem(
+      `eduplatform-resource-card:${slug}`,
+      JSON.stringify({
+        rating: Number(summary.rating || 0),
+        installs: Number(summary.installs || 0),
+      })
+    );
   }
 
   function initializeNavbarSessionState(currentUser, currentRole) {
@@ -83,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach(link => link.closest("li")?.remove());
 
     const displayName = getDisplayName(currentUser);
-    const dashboardEntry = getDashboardEntry(currentRole);
+    const dashboardEntries = getDashboardEntries(currentRole);
     const profileItem = document.createElement("li");
     profileItem.className = "nav-item dropdown";
     profileItem.innerHTML = `
@@ -92,8 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
         <li><a class="dropdown-item" href="profile.html">Profilul meu</a></li>
-        ${dashboardEntry ? `<li><a class="dropdown-item" href="${dashboardEntry.href}">${dashboardEntry.label}</a></li>` : ""}
-        <li><hr class="dropdown-divider"></li>
+        ${dashboardEntries
+          .map(entry => `<li><a class="dropdown-item" href="${entry.href}">${entry.label}</a></li>`)
+          .join("")}
+        ${dashboardEntries.length ? '<li><hr class="dropdown-divider"></li>' : ""}
         <li><button class="dropdown-item" type="button" id="logoutNavButton">Deconectare</button></li>
       </ul>
     `;
@@ -227,20 +337,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function getDashboardEntry(currentRole) {
+  function getDashboardEntries(currentRole) {
     if (currentRole === "admin") {
-      return { href: "admin.html", label: "Dashboard admin" };
+      return [
+        { href: "admin.html", label: "Dashboard admin" },
+        { href: "teachers-dashboard.html", label: "Dashboard profesor" },
+        { href: "student-dashboard.html", label: "Dashboard elev" },
+      ];
     }
 
     if (["moderator", "organizator", "profesor"].includes(currentRole)) {
-      return { href: "teachers-dashboard.html", label: "Dashboard profesor" };
+      return [{ href: "teachers-dashboard.html", label: "Dashboard profesor" }];
     }
 
     if (currentRole === "elev") {
-      return { href: "student-dashboard.html", label: "Dashboard elev" };
+      return [{ href: "student-dashboard.html", label: "Dashboard elev" }];
     }
 
-    return null;
+    return [];
   }
 
   function readSupabaseSession() {
@@ -292,4 +406,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
   }
+
+  window.addEventListener("eduplatform:languagechange", () => {
+    items.forEach(item => renderResourceSummary(item, getResourceSummary(item)));
+  });
 });

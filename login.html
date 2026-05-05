@@ -43,6 +43,12 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-6 col-xl-5" id="register">
+        <div id="sessionPanel" class="auth-card d-none">
+          <h1>Sesiune activa</h1>
+          <p>Esti deja autentificat in platforma.</p>
+          <div id="sessionMessage" class="mb-3"></div>
+        </div>
+
         <div id="registerPanel" class="auth-card">
           <h1>Inregistrare</h1>
           <p>Creeaza cont gratuit pe platforma.</p>
@@ -100,6 +106,21 @@
             <button id="showRegisterButton" class="btn btn-link p-0 auth-switch-link" type="button">Inregistreaza-te!</button>
           </div>
         </div>
+
+        <div id="resetPanel" class="auth-card d-none">
+          <h1>Resetare parola</h1>
+          <p>Introdu doar emailul contului tau si iti trimitem linkul de resetare.</p>
+          <div id="resetMessage" class="mb-3"></div>
+          <form id="resetForm">
+            <label class="form-label" for="resetEmail">Email</label>
+            <input id="resetEmail" class="form-control mb-4" type="email" placeholder="nume@email.com" required>
+            <button class="btn btn-primary custom-btn w-100" type="submit">Trimite email de resetare</button>
+          </form>
+          <div class="auth-switch mt-4">
+            <span>Ti-ai amintit parola?</span>
+            <button id="backToLoginButton" class="btn btn-link p-0 auth-switch-link" type="button">Revino la autentificare</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -138,6 +159,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/i18n-global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./js/supabaseClient.js"></script>
 <script src="./js/auth.js"></script>

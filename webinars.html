@@ -46,13 +46,24 @@
 <main class="py-5">
   <div class="container">
     <div id="webinarMessage" class="mb-4"></div>
-    <div class="row g-4" id="webinarsGrid">
-      <div class="col-12">
-        <div class="info-card text-center text-muted">
-          Se incarca webinariile disponibile...
-        </div>
+    <section class="webinar-carousel-shell">
+      <div class="webinar-carousel-topbar">
+        <button type="button" class="webinar-carousel-arrow" id="webinarsPrevButton" aria-label="Webinar anterior">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" class="webinar-carousel-arrow" id="webinarsNextButton" aria-label="Webinar urmator">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
-    </div>
+      <div id="webinarsGrid" class="webinar-carousel-track">
+        <article class="webinar-carousel-slide">
+          <div class="info-card text-center text-muted">
+            Se incarca webinariile disponibile...
+          </div>
+        </article>
+      </div>
+      <div id="webinarsDots" class="webinar-carousel-dots" aria-label="Navigare webinarii"></div>
+    </section>
 
     <section id="webinarLibrarySection" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
@@ -69,6 +80,27 @@
           <div class="info-card text-center text-muted">
             Inca nu ai cursuri video de afisat.
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="webinarRecommendedSection" class="mt-5">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="section-title mb-1">Webinarii recomandate</h2>
+          <p class="text-secondary mb-0">
+            La final, poti descoperi si alte sesiuni utile care merita urmarite.
+          </p>
+        </div>
+        <span class="text-muted small" id="webinarRecommendedMeta">0 recomandari</span>
+      </div>
+      <div class="webinar-carousel-shell">
+        <div id="webinarRecommendedSlider" class="webinar-carousel-track">
+          <article class="webinar-carousel-slide">
+            <div class="webinar-recommendation-card text-center text-muted">
+              Se incarca recomandarile...
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -206,6 +238,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/i18n-global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./js/supabaseClient.js"></script>
 <script src="./js/webinars.js"></script>

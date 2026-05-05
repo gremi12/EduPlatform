@@ -7,16 +7,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   const registerRole = document.querySelector("#registerRole");
   const registerClassGroup = document.querySelector("#registerClassGroup");
   const registerClassLevel = document.querySelector("#registerClassLevel");
+  const sessionPanel = document.querySelector("#sessionPanel");
+  const sessionMessage = document.querySelector("#sessionMessage");
   const registerPanel = document.querySelector("#registerPanel");
   const loginPanel = document.querySelector("#loginPanel");
+  const resetPanel = document.querySelector("#resetPanel");
   const showLoginButton = document.querySelector("#showLoginButton");
   const showRegisterButton = document.querySelector("#showRegisterButton");
+  const backToLoginButton = document.querySelector("#backToLoginButton");
   const loginEmail = document.querySelector("#loginEmail");
+  const resetEmail = document.querySelector("#resetEmail");
   const resetPasswordButton = document.querySelector("#resetPasswordButton");
+  const resetForm = document.querySelector("#resetForm");
+  const resetMessage = document.querySelector("#resetMessage");
   const passwordToggleButtons = document.querySelectorAll("[data-toggle-password]");
 
   const passwordRuleMessage =
     "Parola trebuie sa aiba minim 8 caractere, cel putin un numar si un simbol.";
+  const resetPasswordRedirectUrl = new URL(
+    "reset-password.html",
+    window.location.href.split("#")[0]
+  ).href;
+  let hasActiveSession = false;
 
   syncViewWithRoute();
   window.addEventListener("hashchange", syncViewWithRoute);
@@ -42,47 +54,64 @@ document.addEventListener("DOMContentLoaded", async () => {
     showRegisterView();
   });
 
-  resetPasswordButton?.addEventListener("click", async () => {
+  backToLoginButton?.addEventListener("click", () => {
+    showLoginView();
+    loginEmail?.focus();
+  });
+
+  resetPasswordButton?.addEventListener("click", () => {
     supabaseApi.clearMessage(loginMessage);
-    const email = loginEmail?.value.trim();
+    supabaseApi.clearMessage(resetMessage);
+    if (resetEmail) {
+      resetEmail.value = loginEmail?.value.trim() || "";
+    }
+    showResetView();
+    resetEmail?.focus();
+  });
+
+  resetForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    supabaseApi.clearMessage(resetMessage);
+    const email = resetEmail?.value.trim();
 
     if (!email) {
       supabaseApi.showMessage(
-        loginMessage,
-        "Introdu emailul si apoi apasa pe resetare parola.",
+        resetMessage,
+        "Introdu emailul contului pentru resetarea parolei.",
         "warning"
       );
-      showLoginView();
-      loginEmail?.focus();
+      resetEmail?.focus();
       return;
     }
 
     try {
       const { error } = await supabaseApi.client.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.href.split("#")[0]}#login`,
+        redirectTo: resetPasswordRedirectUrl,
       });
 
       if (error) throw error;
 
       supabaseApi.showMessage(
-        loginMessage,
+        resetMessage,
         "Ti-am trimis emailul pentru resetarea parolei.",
         "success"
       );
-      showLoginView();
+      if (loginEmail) {
+        loginEmail.value = email;
+      }
     } catch (error) {
       supabaseApi.showMessage(
-        loginMessage,
+        resetMessage,
         error.message || "Nu am putut trimite emailul de resetare.",
         "danger"
       );
-      showLoginView();
     }
   });
 
   try {
     const authState = await supabaseApi.requireSession({ redirectTo: null });
     if (authState?.user) {
+      hasActiveSession = true;
       renderActiveSessionMessage(authState.profile);
     }
   } catch (error) {
@@ -198,8 +227,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderActiveSessionMessage(profile) {
     const destination = supabaseApi.getDashboardPath(profile);
-    registerMessage.className = "alert alert-info mb-3";
-    registerMessage.innerHTML = `
+    sessionPanel?.classList.remove("d-none");
+    registerPanel?.classList.add("d-none");
+    loginPanel?.classList.add("d-none");
+    resetPanel?.classList.add("d-none");
+
+    sessionMessage.className = "alert alert-info mb-3";
+    sessionMessage.innerHTML = `
       Esti deja autentificat.
       <div class="mt-2 d-flex flex-wrap gap-2">
         <a class="btn btn-sm btn-primary" href="${destination}">Continua in cont</a>
@@ -210,7 +244,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const logoutButton = document.querySelector("#logoutFromLoginPage");
     logoutButton?.addEventListener("click", async () => {
       await supabaseApi.signOut();
-      supabaseApi.clearMessage(registerMessage);
+      hasActiveSession = false;
+      supabaseApi.clearMessage(sessionMessage);
+      sessionPanel?.classList.add("d-none");
+      syncViewWithRoute();
     });
   }
 
@@ -253,20 +290,48 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function showLoginView() {
+    if (hasActiveSession) return;
+    sessionPanel?.classList.add("d-none");
     registerPanel?.classList.add("d-none");
+    resetPanel?.classList.add("d-none");
     loginPanel?.classList.remove("d-none");
     window.history.replaceState(null, "", "#login");
   }
 
   function showRegisterView() {
+    if (hasActiveSession) return;
+    sessionPanel?.classList.add("d-none");
     loginPanel?.classList.add("d-none");
+    resetPanel?.classList.add("d-none");
     registerPanel?.classList.remove("d-none");
     window.history.replaceState(null, "", "#register");
   }
 
+  function showResetView() {
+    if (hasActiveSession) return;
+    sessionPanel?.classList.add("d-none");
+    registerPanel?.classList.add("d-none");
+    loginPanel?.classList.add("d-none");
+    resetPanel?.classList.remove("d-none");
+    window.history.replaceState(null, "", "#reset");
+  }
+
   function syncViewWithRoute() {
+    if (hasActiveSession) {
+      sessionPanel?.classList.remove("d-none");
+      registerPanel?.classList.add("d-none");
+      loginPanel?.classList.add("d-none");
+      resetPanel?.classList.add("d-none");
+      return;
+    }
+
     if (window.location.hash === "#register") {
       showRegisterView();
+      return;
+    }
+
+    if (window.location.hash === "#reset") {
+      showResetView();
       return;
     }
 

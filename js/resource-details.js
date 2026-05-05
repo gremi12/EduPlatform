@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const infoSection = findSectionByHeading("Inform");
   const statsContainer = document.querySelector(".resource-stats");
   const downloadBox = document.querySelector(".download-box");
+  const installCountStorageKey = `eduplatform-resource-installs:${resourceConfig.slug}`;
+  let selectedRating = 0;
 
   if (downloadBox) {
     const reportCard = document.createElement("div");
@@ -43,15 +45,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
       <div id="resourceFeedbackList" class="mb-4"></div>
       <form id="resourceFeedbackForm" class="resource-feedback-form">
-        <label class="form-label fw-bold" for="resourceFeedbackRating">Evaluare</label>
-        <select id="resourceFeedbackRating" class="form-select mb-3" required>
-          <option value="">Selecteaza ratingul</option>
-          <option value="5">5 - Excelent</option>
-          <option value="4">4 - Foarte bun</option>
-          <option value="3">3 - Bun</option>
-          <option value="2">2 - Poate fi imbunatatit</option>
-          <option value="1">1 - Slab</option>
-        </select>
+        <label class="form-label fw-bold">Evaluare</label>
+        <div class="resource-rating-selector" id="resourceRatingSelector" role="radiogroup" aria-label="Alege evaluarea in stele">
+          ${Array.from({ length: 5 }, (_, index) => `
+            <button
+              type="button"
+              class="resource-rating-star"
+              data-rating-value="${index + 1}"
+              aria-label="${index + 1} stele"
+              aria-pressed="false"
+            >★</button>
+          `).join("")}
+        </div>
+        <p class="resource-rating-hint" id="resourceRatingHint">0 stele selectate</p>
         <label class="form-label fw-bold" for="resourceFeedbackComment">Comentariul tau</label>
         <textarea id="resourceFeedbackComment" class="form-control mb-3" rows="4" placeholder="Scrie opinia ta despre resursa..." required></textarea>
         <button id="resourceFeedbackSubmitButton" class="btn btn-primary custom-btn" type="submit">Trimite feedback</button>
@@ -74,6 +80,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const feedbackList = document.querySelector("#resourceFeedbackList");
   const feedbackForm = document.querySelector("#resourceFeedbackForm");
   const reportForm = document.querySelector("#resourceReportForm");
+  const ratingSelector = document.querySelector("#resourceRatingSelector");
+  const ratingHint = document.querySelector("#resourceRatingHint");
+  const downloadActionButton = downloadBox?.querySelector(".btn.btn-primary");
+  const saveActionButton = downloadBox?.querySelector(".btn.btn-outline-primary");
+
+  initializeStatsDefaults();
+  initializeDownloadActions();
+  initializeRatingSelector();
 
   if (!supabaseApi?.isConfigured) {
     supabaseApi?.showMessage(
@@ -117,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const rating = Number(document.querySelector("#resourceFeedbackRating")?.value || 0);
+    const rating = selectedRating;
     const comment = document.querySelector("#resourceFeedbackComment")?.value.trim();
 
     if (!rating || !comment) {
@@ -148,6 +162,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (error) throw error;
 
       feedbackForm.reset();
+      updateSelectedRating(0);
       supabaseApi.showMessage(pageMessage, "Feedback-ul tau a fost salvat.", "success");
       await loadFeedback();
     } catch (error) {
@@ -252,6 +267,49 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await loadFeedback();
 
+  function initializeStatsDefaults() {
+    const stats = statsContainer?.querySelectorAll("span");
+    if (stats?.length >= 3) {
+      stats[0].innerHTML = '<i class="fa-solid fa-star"></i> 0 stele';
+      stats[1].innerHTML = `<i class="fa-solid fa-download"></i> ${getInstallCount()} instalari`;
+      stats[2].innerHTML = '<i class="fa-solid fa-comment"></i> 0 comentarii';
+    }
+
+    const averageRating = document.querySelector("#resourceAverageRating");
+    const ratingsMeta = document.querySelector("#resourceRatingsMeta");
+    const averageStars = document.querySelector("#resourceAverageStars");
+
+    if (averageRating) averageRating.textContent = "0.0";
+    if (ratingsMeta) ratingsMeta.textContent = "0 evaluari";
+    if (averageStars) averageStars.innerHTML = renderStars(0);
+  }
+
+  function initializeDownloadActions() {
+    downloadActionButton?.addEventListener("click", event => {
+      event.preventDefault();
+      incrementInstallCount();
+    });
+
+    saveActionButton?.addEventListener("click", event => {
+      event.preventDefault();
+      supabaseApi?.showMessage(
+        pageMessage,
+        "Resursa a fost salvata in profilul local al browserului.",
+        "success"
+      );
+    });
+  }
+
+  function initializeRatingSelector() {
+    ratingSelector?.querySelectorAll("[data-rating-value]").forEach(button => {
+      button.addEventListener("click", () => {
+        updateSelectedRating(Number(button.dataset.ratingValue || 0));
+      });
+    });
+
+    updateSelectedRating(0);
+  }
+
   async function loadFeedback() {
     if (!feedbackList) return;
 
@@ -352,8 +410,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const stats = statsContainer?.querySelectorAll("span");
     if (stats?.length >= 3) {
-      stats[0].innerHTML = `<i class="fa-solid fa-star"></i> ${average.toFixed(1)} rating`;
+      stats[0].innerHTML = `<i class="fa-solid fa-star"></i> ${average.toFixed(1)} stele`;
+      stats[1].innerHTML = `<i class="fa-solid fa-download"></i> ${getInstallCount()} instalari`;
       stats[2].innerHTML = `<i class="fa-solid fa-comment"></i> ${ratingsCount} comentarii`;
+    }
+  }
+
+  function incrementInstallCount() {
+    const nextCount = getInstallCount() + 1;
+    window.localStorage.setItem(installCountStorageKey, String(nextCount));
+    const stats = statsContainer?.querySelectorAll("span");
+    if (stats?.length >= 2) {
+      stats[1].innerHTML = `<i class="fa-solid fa-download"></i> ${nextCount} instalari`;
+    }
+    supabaseApi?.showMessage(pageMessage, "Instalarea a fost inregistrata.", "success");
+  }
+
+  function getInstallCount() {
+    const rawValue = window.localStorage.getItem(installCountStorageKey);
+    return Number.parseInt(rawValue || "0", 10) || 0;
+  }
+
+  function updateSelectedRating(value) {
+    selectedRating = value;
+
+    ratingSelector?.querySelectorAll("[data-rating-value]").forEach(button => {
+      const currentValue = Number(button.dataset.ratingValue || 0);
+      const isActive = currentValue <= value;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    if (ratingHint) {
+      ratingHint.textContent = value ? `${value} stele selectate` : "0 stele selectate";
     }
   }
 

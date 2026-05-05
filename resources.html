@@ -85,12 +85,16 @@
         </div>
         <div class="col-lg-2">
           <label class="form-label">Clasa</label>
-          <select class="form-select">
-            <option>Toate</option>
-            <option>Clasa 7</option>
-            <option>Clasa 8</option>
-            <option>Clasa 9</option>
-            <option>Clasa 10</option>
+          <select id="classFilter" class="form-select">
+            <option value="">Toate clasele</option>
+            <option value="clasa 5">Clasa 5</option>
+            <option value="clasa 6">Clasa 6</option>
+            <option value="clasa 7">Clasa 7</option>
+            <option value="clasa 8">Clasa 8</option>
+            <option value="clasa 9">Clasa 9</option>
+            <option value="clasa 10">Clasa 10</option>
+            <option value="clasa 11">Clasa 11</option>
+            <option value="clasa 12">Clasa 12</option>
           </select>
         </div>
         <div class="col-lg-2">
@@ -123,58 +127,168 @@
       </div>
 
       <div id="resourcesGrid" class="row g-4">
-        <div class="col-md-6 col-lg-4 resource-item" data-category="informatică">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="informatică" data-class-level="clasa 9" data-resource-slug="resource-informatica">
           <div class="resource-card">
             <div class="resource-icon bg-green"><i class="fa-solid fa-code"></i></div>
-            <span class="resource-category">Informatică · Clasa 9</span>
+            <span class="resource-category">Informatică · <span data-resource-class-label>Clasa 9</span></span>
             <h5>Introducere în algoritmi</h5>
             <p>Algoritmi, pseudocod și exemple practice.</p>
-            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.4</span><span><i class="fa-solid fa-download"></i> 650</span></div>
-            <a href="./resource-informatica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+            <div class="resource-meta">
+              <span data-resource-rating-display><i class="fa-solid fa-star"></i> 0 stele</span>
+              <span data-resource-install-display><i class="fa-solid fa-download"></i> 0 instalari</span>
+            </div>
+            <div class="resource-card-rating mt-3" aria-label="Alege ratingul pentru resursa de informatica">
+              <button type="button" class="resource-card-star" data-resource-rate="1">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="2">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="3">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="4">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="5">★</button>
+            </div>
+            <div class="resource-card-actions mt-3">
+              <select class="form-select resource-class-select" aria-label="Alege clasa pentru resursa de informatica">
+                <option value="clasa 5">Clasa 5</option>
+                <option value="clasa 6">Clasa 6</option>
+                <option value="clasa 7">Clasa 7</option>
+                <option value="clasa 8">Clasa 8</option>
+                <option value="clasa 9" selected>Clasa 9</option>
+                <option value="clasa 10">Clasa 10</option>
+                <option value="clasa 11">Clasa 11</option>
+                <option value="clasa 12">Clasa 12</option>
+              </select>
+              <a href="./resource-informatica.html" class="btn btn-outline-primary resource-open-button">Deschide</a>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 resource-item" data-category="științe">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="științe" data-class-level="clasa 8" data-resource-slug="resource-biologie">
           <div class="resource-card">
             <div class="resource-icon bg-orange"><i class="fa-solid fa-flask"></i></div>
-            <span class="resource-category">Științe · Biologie</span>
+            <span class="resource-category">Științe · <span data-resource-class-label>Clasa 8</span> · Biologie</span>
             <h5>Fotosinteza explicată</h5>
             <p>Experiment și fișă de lucru pentru elevi.</p>
-            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.5</span><span><i class="fa-solid fa-download"></i> 870</span></div>
-            <a href="./resource-biologie.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+            <div class="resource-meta">
+              <span data-resource-rating-display><i class="fa-solid fa-star"></i> 0 stele</span>
+              <span data-resource-install-display><i class="fa-solid fa-download"></i> 0 instalari</span>
+            </div>
+            <div class="resource-card-rating mt-3" aria-label="Alege ratingul pentru resursa de biologie">
+              <button type="button" class="resource-card-star" data-resource-rate="1">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="2">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="3">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="4">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="5">★</button>
+            </div>
+            <div class="resource-card-actions mt-3">
+              <select class="form-select resource-class-select" aria-label="Alege clasa pentru resursa de biologie">
+                <option value="clasa 5">Clasa 5</option>
+                <option value="clasa 6">Clasa 6</option>
+                <option value="clasa 7">Clasa 7</option>
+                <option value="clasa 8" selected>Clasa 8</option>
+                <option value="clasa 9">Clasa 9</option>
+                <option value="clasa 10">Clasa 10</option>
+                <option value="clasa 11">Clasa 11</option>
+                <option value="clasa 12">Clasa 12</option>
+              </select>
+              <a href="./resource-biologie.html" class="btn btn-outline-primary resource-open-button">Deschide</a>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 resource-item" data-category="limba română">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="limba română" data-class-level="clasa 8" data-resource-slug="resource-romana">
           <div class="resource-card">
             <div class="resource-icon bg-purple"><i class="fa-solid fa-book"></i></div>
-            <span class="resource-category">Limba Română · Clasa 8</span>
+            <span class="resource-category">Limba Română · <span data-resource-class-label>Clasa 8</span></span>
             <h5>Analiza textului literar</h5>
             <p>Model de analiză și exerciții de interpretare.</p>
-            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.6</span><span><i class="fa-solid fa-download"></i> 1090</span></div>
-            <a href="./resource-romana.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+            <div class="resource-meta">
+              <span data-resource-rating-display><i class="fa-solid fa-star"></i> 0 stele</span>
+              <span data-resource-install-display><i class="fa-solid fa-download"></i> 0 instalari</span>
+            </div>
+            <div class="resource-card-rating mt-3" aria-label="Alege ratingul pentru resursa de limba romana">
+              <button type="button" class="resource-card-star" data-resource-rate="1">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="2">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="3">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="4">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="5">★</button>
+            </div>
+            <div class="resource-card-actions mt-3">
+              <select class="form-select resource-class-select" aria-label="Alege clasa pentru resursa de limba romana">
+                <option value="clasa 5">Clasa 5</option>
+                <option value="clasa 6">Clasa 6</option>
+                <option value="clasa 7">Clasa 7</option>
+                <option value="clasa 8" selected>Clasa 8</option>
+                <option value="clasa 9">Clasa 9</option>
+                <option value="clasa 10">Clasa 10</option>
+                <option value="clasa 11">Clasa 11</option>
+                <option value="clasa 12">Clasa 12</option>
+              </select>
+              <a href="./resource-romana.html" class="btn btn-outline-primary resource-open-button">Deschide</a>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 resource-item" data-category="matematică">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="matematică" data-class-level="clasa 7" data-resource-slug="resource-matematica">
           <div class="resource-card">
             <div class="resource-icon bg-blue"><i class="fa-solid fa-square-root-variable"></i></div>
-            <span class="resource-category">Matematică · Clasa 7</span>
+            <span class="resource-category">Matematică · <span data-resource-class-label>Clasa 7</span></span>
             <h5>Ecuații de gradul I</h5>
             <p>Exemple rezolvate și probleme practice.</p>
-            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.7</span><span><i class="fa-solid fa-download"></i> 1310</span></div>
-            <a href="./resource-matematica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+            <div class="resource-meta">
+              <span data-resource-rating-display><i class="fa-solid fa-star"></i> 0 stele</span>
+              <span data-resource-install-display><i class="fa-solid fa-download"></i> 0 instalari</span>
+            </div>
+            <div class="resource-card-rating mt-3" aria-label="Alege ratingul pentru resursa de matematica">
+              <button type="button" class="resource-card-star" data-resource-rate="1">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="2">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="3">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="4">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="5">★</button>
+            </div>
+            <div class="resource-card-actions mt-3">
+              <select class="form-select resource-class-select" aria-label="Alege clasa pentru resursa de matematica">
+                <option value="clasa 5">Clasa 5</option>
+                <option value="clasa 6">Clasa 6</option>
+                <option value="clasa 7" selected>Clasa 7</option>
+                <option value="clasa 8">Clasa 8</option>
+                <option value="clasa 9">Clasa 9</option>
+                <option value="clasa 10">Clasa 10</option>
+                <option value="clasa 11">Clasa 11</option>
+                <option value="clasa 12">Clasa 12</option>
+              </select>
+              <a href="./resource-matematica.html" class="btn btn-outline-primary resource-open-button">Deschide</a>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 resource-item" data-category="științe">
+        <div class="col-md-6 col-lg-4 resource-item" data-category="științe" data-class-level="clasa 10" data-resource-slug="resource-fizica">
           <div class="resource-card">
             <div class="resource-icon bg-orange"><i class="fa-solid fa-bolt"></i></div>
-            <span class="resource-category">Științe · Fizică</span>
+            <span class="resource-category">Științe · <span data-resource-class-label>Clasa 10</span> · Fizică</span>
             <h5>Circuit electric simplu</h5>
             <p>Activitate practică cu observații și concluzii.</p>
-            <div class="resource-meta"><span><i class="fa-solid fa-star"></i> 4.9</span><span><i class="fa-solid fa-download"></i> 1750</span></div>
-            <a href="./resource-fizica.html" class="btn btn-outline-primary w-100 mt-3">Deschide</a>
+            <div class="resource-meta">
+              <span data-resource-rating-display><i class="fa-solid fa-star"></i> 0 stele</span>
+              <span data-resource-install-display><i class="fa-solid fa-download"></i> 0 instalari</span>
+            </div>
+            <div class="resource-card-rating mt-3" aria-label="Alege ratingul pentru resursa de fizica">
+              <button type="button" class="resource-card-star" data-resource-rate="1">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="2">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="3">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="4">★</button>
+              <button type="button" class="resource-card-star" data-resource-rate="5">★</button>
+            </div>
+            <div class="resource-card-actions mt-3">
+              <select class="form-select resource-class-select" aria-label="Alege clasa pentru resursa de fizica">
+                <option value="clasa 5">Clasa 5</option>
+                <option value="clasa 6">Clasa 6</option>
+                <option value="clasa 7">Clasa 7</option>
+                <option value="clasa 8">Clasa 8</option>
+                <option value="clasa 9">Clasa 9</option>
+                <option value="clasa 10" selected>Clasa 10</option>
+                <option value="clasa 11">Clasa 11</option>
+                <option value="clasa 12">Clasa 12</option>
+              </select>
+              <a href="./resource-fizica.html" class="btn btn-outline-primary resource-open-button">Deschide</a>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +323,16 @@
             </div>
             <div class="col-md-6">
               <label class="form-label" for="resourceClassLevel">Clasa</label>
-              <input id="resourceClassLevel" type="text" class="form-control" placeholder="Ex: Clasa a 8-a" required>
+              <select id="resourceClassLevel" class="form-select" required>
+                <option value="Clasa 5">Clasa 5</option>
+                <option value="Clasa 6">Clasa 6</option>
+                <option value="Clasa 7">Clasa 7</option>
+                <option value="Clasa 8" selected>Clasa 8</option>
+                <option value="Clasa 9">Clasa 9</option>
+                <option value="Clasa 10">Clasa 10</option>
+                <option value="Clasa 11">Clasa 11</option>
+                <option value="Clasa 12">Clasa 12</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label class="form-label" for="resourceFormat">Format</label>
@@ -282,6 +405,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/i18n-global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./js/supabaseClient.js"></script>
 <script src="./js/teacher-dashboard.js"></script>
