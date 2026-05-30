@@ -1,6 +1,6 @@
 window.EDUPLATFORM_SUPABASE_CONFIG = window.EDUPLATFORM_SUPABASE_CONFIG || {
-  url: "https://oxkzyfdwfwhuwzmifhvt.supabase.co",
-  anonKey: "sb_publishable_Nvt9KWLou_Gfhu_ZDwVFUw_l60j8Kvc",
+  url: "https://fddwqnjemqvghlflrlss.supabase.co",
+  anonKey: "sb_publishable_7Qx345FJa1qE1vOVj5hzkg_5EFBqS2P",
 };
 
 (function initEduPlatformSupabase() {
